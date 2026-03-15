@@ -125,28 +125,16 @@ async function connectDB() {
 // เชื่อมต่อตอน startup
 connectDB().catch(err => console.error('Initial connection failed:', err.message));
 
-// Middleware: ตรวจสอบ DB connection ก่อนทุก request
-app.use(async (req, res, next) => {
-    try {
-        await connectDB();
-        next();
-    } catch (err) {
-        res.status(503).json({ error: 'Database connection failed', detail: err.message });
-    }
-});
-
-// Health check endpoint สำหรับเช็คสถานะ
+// Health check endpoint สำหรับเช็คสถานะ (ต้องอยู่ก่อน DB middleware)
 app.get('/api/health', async (req, res) => {
     const dbState = mongoose.connection.readyState;
     const states = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
     
-    // แสดงบางส่วนของ URI เพื่อ debug (ซ่อน password)
     const uriPreview = mongoUri ? mongoUri.replace(/:([^@]+)@/, ':***@').substring(0, 80) : 'not set';
     
     let testResult = 'not tested';
     let connectionError = null;
     
-    // ถ้ายังไม่ connected ลอง connect ใหม่
     if (dbState !== 1) {
         try {
             await mongoose.disconnect().catch(() => {});
@@ -181,6 +169,20 @@ app.get('/api/health', async (req, res) => {
         connectionError,
         env: process.env.NODE_ENV || 'not set'
     });
+});
+
+// Middleware: ตรวจสอบ DB connection ก่อนทุก API request
+app.use(async (req, res, next) => {
+    // ข้าม static files
+    if (!req.path.startsWith('/api') && !req.path.startsWith('/search-products')) {
+        return next();
+    }
+    try {
+        await connectDB();
+        next();
+    } catch (err) {
+        res.status(503).json({ error: 'Database connection failed', detail: err.message });
+    }
 });
 
 // ================================
