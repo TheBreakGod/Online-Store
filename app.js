@@ -144,22 +144,41 @@ app.get('/api/health', async (req, res) => {
     const uriPreview = mongoUri ? mongoUri.replace(/:([^@]+)@/, ':***@').substring(0, 80) : 'not set';
     
     let testResult = 'not tested';
-    if (dbState === 1) {
+    let connectionError = null;
+    
+    // ถ้ายังไม่ connected ลอง connect ใหม่
+    if (dbState !== 1) {
+        try {
+            await mongoose.disconnect().catch(() => {});
+            await mongoose.connect(mongoUri, {
+                serverSelectionTimeoutMS: 8000,
+                connectTimeoutMS: 8000,
+            });
+            testResult = 'reconnected OK';
+        } catch (e) {
+            connectionError = e.message;
+            testResult = 'connection failed';
+        }
+    }
+    
+    if (mongoose.connection.readyState === 1) {
         try {
             const count = await mongoose.connection.db.collection('users').countDocuments();
             testResult = `OK - ${count} users found`;
         } catch (e) {
-            testResult = `Error: ${e.message}`;
+            testResult = `DB Error: ${e.message}`;
         }
     }
     
+    const finalState = mongoose.connection.readyState;
     res.json({
-        status: states[dbState] || 'unknown',
-        dbState,
+        status: states[finalState] || 'unknown',
+        dbState: finalState,
         mongoUriSet: !!process.env.MONGO_URI,
         mongoUriType: mongoUri.includes('mongodb+srv') ? 'Atlas' : 'Local',
         uriPreview,
         testResult,
+        connectionError,
         env: process.env.NODE_ENV || 'not set'
     });
 });
