@@ -8,8 +8,6 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 // Import Models
 const User = require('./models/User');
@@ -30,41 +28,11 @@ const { authenticateAdmin } = require('./middlewares/auth');
 // MIDDLEWARE & SETUP
 // ================================
 
-// Cloudinary configuration
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
-});
-
-// สร้าง uploads directory สำหรับ local dev
-const uploadsDir = process.env.VERCEL ? '/tmp/uploads' : path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
-}
-app.use('/uploads', express.static(uploadsDir));
-
-// กำหนดการตั้งค่า multer — ใช้ Cloudinary ถ้ามี config, ไม่งั้นใช้ disk
-let storage;
-if (process.env.CLOUDINARY_CLOUD_NAME) {
-    storage = new CloudinaryStorage({
-        cloudinary: cloudinary,
-        params: {
-            folder: 'easyshop',
-            allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
-        },
-    });
-} else {
-    storage = multer.diskStorage({
-        destination: function (req, file, cb) { cb(null, uploadsDir); },
-        filename: function (req, file, cb) { cb(null, Date.now() + path.extname(file.originalname)); }
-    });
-}
-
+// ใช้ memoryStorage เก็บไฟล์ใน memory แล้วแปลงเป็น base64 เก็บใน DB
 const upload = multer({ 
-    storage: storage,
+    storage: multer.memoryStorage(),
     limits: {
-        fileSize: 50 * 1024 * 1024 // 50MB
+        fileSize: 5 * 1024 * 1024 // 5MB
     },
     fileFilter: (req, file, cb) => {
         // ยอมรับไฟล์รูปทั้งหมด
@@ -611,9 +579,10 @@ app.post('/api/admin/products', upload.single('image'), handleMulterError, async
 
         let product_image_url = null;
         if (req.file) {
-            // Cloudinary ให้ path เป็น URL เต็ม, disk ให้เป็น filename
-            product_image_url = req.file.path && req.file.path.startsWith('http') ? req.file.path : `/uploads/${req.file.filename}`;
-            console.log('✅ Image URL set to:', product_image_url);
+            // แปลงเป็น base64 data URI เก็บใน DB
+            const base64 = req.file.buffer.toString('base64');
+            product_image_url = `data:${req.file.mimetype};base64,${base64}`;
+            console.log('✅ Image saved as base64, size:', req.file.size, 'bytes');
         } else {
             console.log('⚠️  ไม่มีไฟล์อัปโหลด - product_image_url = null');
         }
@@ -661,9 +630,10 @@ app.put('/api/admin/products/:id', upload.single('image'), handleMulterError, as
             updateData.category_ids = [Number(category_id)];
         }
         
-        // ✅ ถ้า upload ไฟล์ใหม่ ให้ update image URL
+        // ✅ ถ้า upload ไฟล์ใหม่ ให้ แปลงเป็น base64 แล้วเก็บใน DB
         if (req.file) {
-            updateData.product_image_url = req.file.path && req.file.path.startsWith('http') ? req.file.path : `/uploads/${req.file.filename}`;
+            const base64 = req.file.buffer.toString('base64');
+            updateData.product_image_url = `data:${req.file.mimetype};base64,${base64}`;
         } 
         // ✅ ถ้าส่ง product_image_url มาใน body ให้ update (รองรับ JSON request)
         else if (product_image_url !== undefined) {
