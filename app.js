@@ -93,24 +93,46 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ================================
-// MONGODB CONNECTION
+// MONGODB CONNECTION (Serverless-compatible)
 // ================================
 
 const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/easyshop';
-console.log('🔗 Connecting to MongoDB...', mongoUri.includes('mongodb+srv') ? 'Atlas' : 'Local');
-console.log('🔗 MONGO_URI set:', !!process.env.MONGO_URI);
+console.log('🔗 MONGO_URI set:', !!process.env.MONGO_URI, mongoUri.includes('mongodb+srv') ? 'Atlas' : 'Local');
 
-mongoose.connect(mongoUri, {
-    serverSelectionTimeoutMS: 30000,
-    socketTimeoutMS: 45000,
-    connectTimeoutMS: 30000,
-    maxPoolSize: 10,
-})
-.then(() => {
-    console.log('✅ Connected to MongoDB successfully');
-})
-.catch(err => {
-    console.error('❌ MongoDB connection error:', err.message);
+// Cache connection สำหรับ Vercel serverless
+let isConnected = false;
+
+async function connectDB() {
+    if (isConnected && mongoose.connection.readyState === 1) {
+        return;
+    }
+    try {
+        await mongoose.connect(mongoUri, {
+            serverSelectionTimeoutMS: 10000,
+            socketTimeoutMS: 45000,
+            connectTimeoutMS: 10000,
+            maxPoolSize: 10,
+        });
+        isConnected = true;
+        console.log('✅ Connected to MongoDB successfully');
+    } catch (err) {
+        isConnected = false;
+        console.error('❌ MongoDB connection error:', err.message);
+        throw err;
+    }
+}
+
+// เชื่อมต่อตอน startup
+connectDB().catch(err => console.error('Initial connection failed:', err.message));
+
+// Middleware: ตรวจสอบ DB connection ก่อนทุก request
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (err) {
+        res.status(503).json({ error: 'Database connection failed', detail: err.message });
+    }
 });
 
 // Health check endpoint สำหรับเช็คสถานะ
