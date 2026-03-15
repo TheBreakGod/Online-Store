@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const sharp = require('sharp');
 
 // Import Models
 const User = require('./models/User');
@@ -578,10 +579,13 @@ app.post('/api/admin/products', upload.single('image'), handleMulterError, async
 
         let product_image_url = null;
         if (req.file) {
-            // แปลงเป็น base64 data URI เก็บใน DB
-            const base64 = req.file.buffer.toString('base64');
-            product_image_url = `data:${req.file.mimetype};base64,${base64}`;
-            console.log('✅ Image saved as base64, size:', req.file.size, 'bytes');
+            // บีบรูปด้วย sharp แล้วแปลงเป็น base64
+            const compressed = await sharp(req.file.buffer)
+                .resize(400, 400, { fit: 'inside', withoutEnlargement: true })
+                .jpeg({ quality: 70 })
+                .toBuffer();
+            product_image_url = `data:image/jpeg;base64,${compressed.toString('base64')}`;
+            console.log('✅ Image compressed & saved:', Math.round(compressed.length/1024), 'KB');
         } else {
             console.log('⚠️  ไม่มีไฟล์อัปโหลด - product_image_url = null');
         }
@@ -629,10 +633,13 @@ app.put('/api/admin/products/:id', upload.single('image'), handleMulterError, as
             updateData.category_ids = [Number(category_id)];
         }
         
-        // ✅ ถ้า upload ไฟล์ใหม่ ให้ แปลงเป็น base64 แล้วเก็บใน DB
+        // ✅ ถ้า upload ไฟล์ใหม่ ให้ บีบแล้วแปลงเป็น base64 แล้วเก็บใน DB
         if (req.file) {
-            const base64 = req.file.buffer.toString('base64');
-            updateData.product_image_url = `data:${req.file.mimetype};base64,${base64}`;
+            const compressed = await sharp(req.file.buffer)
+                .resize(400, 400, { fit: 'inside', withoutEnlargement: true })
+                .jpeg({ quality: 70 })
+                .toBuffer();
+            updateData.product_image_url = `data:image/jpeg;base64,${compressed.toString('base64')}`;
         } 
         // ✅ ถ้าส่ง product_image_url มาใน body ให้ update (รองรับ JSON request)
         else if (product_image_url !== undefined) {
