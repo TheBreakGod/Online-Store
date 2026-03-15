@@ -107,7 +107,6 @@ app.get('*', (req, res, next) => {
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(uploadsDir));
 // multer routes ต้องไป BEFORE body parser
 // เพราะ body parser จะ consume body ก่อน multer ได้
 app.use(bodyParser.json());
