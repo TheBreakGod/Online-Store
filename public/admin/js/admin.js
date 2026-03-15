@@ -412,8 +412,6 @@ async function saveProduct(e) {
                 const data = await res.json();
                 throw new Error(data.message || 'Failed to save product');
             }
-
-            alert('Product saved successfully!');
         } else {
             // If no file, send JSON
             const res = await fetchWithAuth(url, {
@@ -427,8 +425,6 @@ async function saveProduct(e) {
             });
 
             if (!res.ok) throw new Error('Failed to save product');
-
-            alert('Product saved successfully!');
         }
 
         document.getElementById('productModal').classList.remove('show');
