@@ -943,8 +943,18 @@ app.get('/display-customer-info.html', (req, res) => {
 // ERROR HANDLING & SERVER START
 // ================================
 
-// 404 handler
+// 404 handler — ลอง serve static file ก่อน (Vercel fix)
 app.use((req, res) => {
+    // ลอง serve จาก public folder
+    const filePath = path.join(__dirname, 'public', req.path);
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+        return res.sendFile(filePath);
+    }
+    // ลอง serve index.html ถ้า path เป็น directory
+    const indexPath = path.join(filePath, 'index.html');
+    if (fs.existsSync(indexPath)) {
+        return res.sendFile(indexPath);
+    }
     res.status(404).json({ error: 'Not found' });
 });
 
