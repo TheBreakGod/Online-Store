@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const app = express();
 const port = 3000;
 const cors = require('cors');
@@ -28,10 +28,10 @@ const { authenticateAdmin } = require('./middlewares/auth');
 // MIDDLEWARE & SETUP
 // ================================
 
-// สร้าง uploads directory ถ้ายังไม่มี
-const uploadsDir = path.join(__dirname, 'uploads');
+// สร้าง uploads directory (ใช้ /tmp บน Vercel เพราะ filesystem เป็น read-only)
+const uploadsDir = process.env.VERCEL ? '/tmp/uploads' : path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir);
+    fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
 // ให้บริการไฟล์จากโฟลเดอร์ uploads
@@ -40,7 +40,7 @@ app.use('/uploads', express.static('uploads'));
 // กำหนดการตั้งค่า multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads');
+        cb(null, uploadsDir);
     },
     filename: function (req, file, cb) {
         const fileExtension = path.extname(file.originalname);
@@ -107,7 +107,6 @@ mongoose.connect(mongoUri, {
 })
 .catch(err => {
     console.error('❌ MongoDB connection error:', err.message);
-    process.exit(1);
 });
 
 // ================================
