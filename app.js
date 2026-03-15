@@ -98,12 +98,12 @@ app.use(express.urlencoded({ extended: true }));
 
 const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/easyshop';
 console.log('🔗 Connecting to MongoDB...', mongoUri.includes('mongodb+srv') ? 'Atlas' : 'Local');
+console.log('🔗 MONGO_URI set:', !!process.env.MONGO_URI);
 
 mongoose.connect(mongoUri, {
     serverSelectionTimeoutMS: 30000,
     socketTimeoutMS: 45000,
     connectTimeoutMS: 30000,
-    bufferCommands: true,
     maxPoolSize: 10,
 })
 .then(() => {
@@ -111,6 +111,19 @@ mongoose.connect(mongoUri, {
 })
 .catch(err => {
     console.error('❌ MongoDB connection error:', err.message);
+});
+
+// Health check endpoint สำหรับเช็คสถานะ
+app.get('/api/health', (req, res) => {
+    const dbState = mongoose.connection.readyState;
+    const states = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
+    res.json({
+        status: states[dbState] || 'unknown',
+        dbState,
+        mongoUriSet: !!process.env.MONGO_URI,
+        mongoUriType: mongoUri.includes('mongodb+srv') ? 'Atlas' : 'Local',
+        env: process.env.NODE_ENV || 'not set'
+    });
 });
 
 // ================================
