@@ -83,8 +83,50 @@ const handleMulterError = (err, req, res, next) => {
 
 // Middleware
 app.use(cors());
+
+// Serve static files — Vercel serverless fix: ใช้ sendFile แทน express.static
+app.get('*.html', (req, res, next) => {
+    const filePath = path.join(__dirname, 'public', req.path);
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+        return res.sendFile(filePath);
+    }
+    next();
+});
+app.get('*.css', (req, res, next) => {
+    const filePath = path.join(__dirname, 'public', req.path);
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+        res.setHeader('Content-Type', 'text/css');
+        return res.sendFile(filePath);
+    }
+    next();
+});
+app.get('*.js', (req, res, next) => {
+    // ข้าม API routes
+    if (req.path.startsWith('/api/')) return next();
+    const filePath = path.join(__dirname, 'public', req.path);
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+        res.setHeader('Content-Type', 'application/javascript');
+        return res.sendFile(filePath);
+    }
+    next();
+});
+app.get('*', (req, res, next) => {
+    // ข้าม API routes
+    if (req.path.startsWith('/api/') || req.path.startsWith('/search-products') || req.path.startsWith('/uploads')) return next();
+    const filePath = path.join(__dirname, 'public', req.path);
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+        return res.sendFile(filePath);
+    }
+    // ลอง index.html
+    if (req.path === '/' || req.path === '') {
+        const indexPath = path.join(__dirname, 'public', 'index.html');
+        if (fs.existsSync(indexPath)) return res.sendFile(indexPath);
+    }
+    next();
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/admin', express.static(path.join(__dirname, 'admin')));
+app.use('/uploads', express.static(uploadsDir));
 // multer routes ต้องไป BEFORE body parser
 // เพราะ body parser จะ consume body ก่อน multer ได้
 app.use(bodyParser.json());
