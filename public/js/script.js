@@ -27,8 +27,8 @@ let cart = JSON.parse(localStorage.getItem('cart')) || [];
 document.addEventListener('DOMContentLoaded', () => {
     console.log('📄 Page loaded, initializing...');
     
-    // โหลดสินค้าหมวดหมู่ 1 ตั้งแต่เริ่มต้น
-    fetchProducts(1);
+    // โหลดสินค้าทั้งหมดตั้งแต่เริ่มต้น
+    fetchProducts();
     
     // จับ click event ของ category links
     const categoryLinks = document.querySelectorAll('.category-link');
@@ -48,9 +48,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ========== FETCH & DISPLAY PRODUCTS ==========
 function fetchProducts(categoryId) { 
-    console.log('🔄 Fetching products for category:', categoryId);
+    console.log('🔄 Fetching products for category:', categoryId || 'all');
     
-    fetch(`/api/products?category=${categoryId}`)
+    let url = '/api/products';
+    if (categoryId) {
+        url += `?category=${categoryId}`;
+    }
+    
+    fetch(url)
         .then(response => {
             if (!response.ok) throw new Error('Network response error');
             return response.json();
