@@ -114,14 +114,30 @@ mongoose.connect(mongoUri, {
 });
 
 // Health check endpoint สำหรับเช็คสถานะ
-app.get('/api/health', (req, res) => {
+app.get('/api/health', async (req, res) => {
     const dbState = mongoose.connection.readyState;
     const states = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
+    
+    // แสดงบางส่วนของ URI เพื่อ debug (ซ่อน password)
+    const uriPreview = mongoUri ? mongoUri.replace(/:([^@]+)@/, ':***@').substring(0, 80) : 'not set';
+    
+    let testResult = 'not tested';
+    if (dbState === 1) {
+        try {
+            const count = await mongoose.connection.db.collection('users').countDocuments();
+            testResult = `OK - ${count} users found`;
+        } catch (e) {
+            testResult = `Error: ${e.message}`;
+        }
+    }
+    
     res.json({
         status: states[dbState] || 'unknown',
         dbState,
         mongoUriSet: !!process.env.MONGO_URI,
         mongoUriType: mongoUri.includes('mongodb+srv') ? 'Atlas' : 'Local',
+        uriPreview,
+        testResult,
         env: process.env.NODE_ENV || 'not set'
     });
 });
