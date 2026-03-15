@@ -864,3 +864,5 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`🚀 เซิร์ฟเวอร์กำลังทำงานที่ http://localhost:${port}`);
 });
+
+module.exports = app;
