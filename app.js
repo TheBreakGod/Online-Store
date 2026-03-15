@@ -171,6 +171,25 @@ app.get('/api/health', async (req, res) => {
     });
 });
 
+// Debug: เช็คว่า file อยู่ไหนบน Vercel
+app.get('/api/debug-files', (req, res) => {
+    const publicDir = path.join(__dirname, 'public');
+    const adminDir = path.join(__dirname, 'public', 'admin');
+    let publicExists = fs.existsSync(publicDir);
+    let adminExists = fs.existsSync(adminDir);
+    let publicFiles = publicExists ? fs.readdirSync(publicDir) : [];
+    let adminFiles = adminExists ? fs.readdirSync(adminDir) : [];
+    res.json({
+        __dirname,
+        publicDir,
+        publicExists,
+        publicFiles,
+        adminDir,
+        adminExists,
+        adminFiles
+    });
+});
+
 // Middleware: ตรวจสอบ DB connection ก่อนทุก API request
 app.use(async (req, res, next) => {
     // ข้าม static files
