@@ -26,7 +26,7 @@
     <script>
         window.onload = function () {
             // เรียกข้อมูลจาก API PHP
-            fetch('http://localhost:3000/get-customers')  // URL ของ API ที่สร้างใน Express
+            fetch('/get-customers')  // URL ของ API ที่สร้างใน Express
                 .then(response => response.json())  // รับข้อมูลที่เป็น JSON
                 .then(data => {
                     if (data.length > 0) {

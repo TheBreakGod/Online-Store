@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function fetchProducts(categoryId) { 
     console.log('🔄 Fetching products for category:', categoryId);
     
-    fetch(`http://localhost:3000/api/products?category=${categoryId}`)
+    fetch(`/api/products?category=${categoryId}`)
         .then(response => {
             if (!response.ok) throw new Error('Network response error');
             return response.json();
@@ -357,7 +357,7 @@ function searchProducts() {
     
     console.log('🔍 Searching for:', searchTerm);
     
-    fetch(`http://localhost:3000/search-products?query=${encodeURIComponent(searchTerm)}`)
+    fetch(`/search-products?query=${encodeURIComponent(searchTerm)}`)
         .then(response => response.json())
         .then(products => {
             console.log('✅ Search results:', products.length);

@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function fetchProducts(categoryId) { 
-    fetch(`http://localhost:3000/api/products?category=${categoryId}`)
+    fetch(`/api/products?category=${categoryId}`)
         .then(response => response.json())
         .then(products => {
             const productContainer = document.getElementById('product-container');
@@ -225,7 +225,7 @@ function searchProducts() {
     const searchInput = document.getElementById('searchInput').value.trim(); // รับค่าจากช่องค้นหา
 
     // ส่งคำค้นหาไปยัง API
-    fetch(`http://localhost:3000/search-products?query=${encodeURIComponent(searchInput)}`)
+    fetch(`/search-products?query=${encodeURIComponent(searchInput)}`)
         .then(response => response.json())
         .then(products => {
             const productContainer = document.getElementById('product-container');
@@ -300,7 +300,6 @@ window.onscroll = function() {
 showCart();
 fetchProducts();
 updateCartCount();
-
 
 
 

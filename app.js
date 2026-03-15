@@ -35,7 +35,7 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 // ให้บริการไฟล์จากโฟลเดอร์ uploads
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(uploadsDir));
 
 // กำหนดการตั้งค่า multer
 const storage = multer.diskStorage({
@@ -83,8 +83,8 @@ const handleMulterError = (err, req, res, next) => {
 
 // Middleware
 app.use(cors());
-app.use(express.static('public'));
-app.use('/admin', express.static('admin'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/admin', express.static(path.join(__dirname, 'admin')));
 // multer routes ต้องไป BEFORE body parser
 // เพราะ body parser จะ consume body ก่อน multer ได้
 app.use(bodyParser.json());
