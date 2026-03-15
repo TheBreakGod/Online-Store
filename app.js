@@ -158,8 +158,8 @@ app.post('/api/register', async (req, res) => {
         await newUser.save();
         res.json({ success: true, message: 'สมัครสมาชิกสำเร็จ!' });
     } catch (error) {
-        console.error('Register error:', error);
-        res.status(500).json({ error: 'Server error' });
+        console.error('Register error:', error.message, error.stack);
+        res.status(500).json({ error: 'Server error', detail: error.message });
     }
 });
 
