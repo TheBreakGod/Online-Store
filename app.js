@@ -97,10 +97,14 @@ app.use(express.urlencoded({ extended: true }));
 // ================================
 
 const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/easyshop';
+console.log('🔗 Connecting to MongoDB...', mongoUri.includes('mongodb+srv') ? 'Atlas' : 'Local');
 
 mongoose.connect(mongoUri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+    serverSelectionTimeoutMS: 30000,
+    socketTimeoutMS: 45000,
+    connectTimeoutMS: 30000,
+    bufferCommands: true,
+    maxPoolSize: 10,
 })
 .then(() => {
     console.log('✅ Connected to MongoDB successfully');
