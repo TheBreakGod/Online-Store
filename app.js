@@ -119,7 +119,7 @@ app.post('/api/register', async (req, res) => {
         const { username, name, email, password } = req.body;
 
         // ตรวจสอบข้อมูล
-        if (!username || !name || !email || !password) {
+        if (!username || !email || !password) {
             return res.status(400).json({ 
                 success: false, 
                 message: 'กรุณากรอกข้อมูลให้ครบถ้วน' 
@@ -150,7 +150,7 @@ app.post('/api/register', async (req, res) => {
         // สร้าง user ใหม่
         const newUser = new User({
             username,
-            name,
+            name: name || username,
             email,
             password: hashedPassword
         });
