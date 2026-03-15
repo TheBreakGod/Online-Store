@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap');
+
+/* General styling */
+body {
+    font-family: 'Mitr', sans-serif;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #000000;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between; /* จัดการระยะห่างระหว่างรูปและฟอร์ม */
+    align-items: center;
+    width: 100%;
+    height: 66.7vh;
+    max-width: 1530px; /* ความกว้างสูงสุดของ container */
+    background: rgba(255, 255, 255, 0.95);
+    padding: 60px;
+    border-radius: 50px;
+    box-shadow: 0 30px 40px rgba(0, 0, 0, 0.411);
+    animation: fadeIn 0.5s ease;
+}
+  
+.image-01 {
+    position: absolute; /* ตั้งตำแหน่งให้อิสระ */
+    top: 37%; /* ระยะห่างจากด้านบน 50px */
+    left: 18%; /* ระยะห่างจากด้านซ้าย 100px */
+    width: 200px; /* กำหนดความกว้างของรูปภาพ */
+    height: auto; /* รักษาสัดส่วนของรูปภาพ */
+  }
+  
+  
+  img {
+    width: 100%; /* ปรับขนาดรูปภาพให้เต็มพื้นที่ที่กำหนด */
+  }
+  
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem; /* ขยายขนาดตัวอักษรหัวข้อ */
+    color: #002fff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.input-group {
+    position: relative;
+    color: #000000;
+    display: block;
+    text-align: left;
+    margin-bottom: 10px;
+    font-size: 16.5px; /* ขยายตัวอักษรคำอธิบายใน input */
+}
+
+input {
+    width: 94%;
+    padding: 15px;
+    border: 1px solid #007bff;
+    border-radius: 15px;
+    font-size: 1.2rem; /* เพิ่มขนาดตัวอักษรในช่องกรอกข้อมูล */
+    transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 25px;
+    border: none;
+    border-radius: 15px;
+    background-color: #007bff;
+    color: rgb(255, 255, 255);
+    font-size: 1.4rem; /* เพิ่มขนาดตัวอักษรในปุ่ม */
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.link a {
+    color: #1900ff;
+    text-decoration: none;
+    font-size: 1.2rem; /* เพิ่มขนาดตัวอักษรในลิงก์ */
+    transition: color 0.3s ease;
+}
+
+button:hover {
+    background-color: #002fff;
+    transform: scale(1.02);
+    transition: all 0.3s ease-in-out;
+}
+
+.link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.link a {
+    color: #1900ff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.link a:hover {
+    text-decoration: underline;
+    color: #eb0000;
+}
+
+#message {
+    margin-top: 15px;
+    color: #ff0800;
+    font-size: 1rem;
+}
+

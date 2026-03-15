@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap');
+
+/* General styling */
+
+
+body { 
+    font-family: 'Mitr', sans-serif;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #333;
+}
+
+.container {
+    
+    padding-right: 55px;
+    padding-left: 55px;
+    display: flex;
+    max-width: 1050px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.fade-out {
+    animation: fadeOut 0.5s forwards;
+}
+
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+    }
+    
+
+.form-section {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px 80px; /* ลด padding */
+    border-radius: 20px;
+    box-shadow: 0 30px 40px rgba(0, 0, 0, 0.411);
+    flex: 1;
+    position: relative;
+    left: -120px; /* ปรับตำแหน่งซ้าย */
+    top: 20px; /* ปรับตำแหน่งบน */
+}
+
+h1 {
+    
+    margin-bottom: 30px;
+    margin-top: 25px;
+    font-size: 4rem;
+    color: #007bff;
+    display: flex;               /* กำหนดให้เป็น flex container */
+    justify-content: center;     /* จัดกลางในแนวนอน */
+    align-items: center;         /* จัดกลางในแนวตั้ง */
+}
+
+.input-group {
+    border-radius: 10px;
+    border: 1px solid hsl(204, 100%, 78%);
+    border-color: #007bff; /* สีกรอบเมื่ออยู่ในโหมด focus */
+}
+
+
+input {
+    width: 90%;
+    padding: 18px;
+    border: 10px solid #ffffff;
+    border-radius: 10px;
+    font-size: 1.2rem;
+}
+
+button {
+    width: 100%;
+    padding: 18px;
+    margin-top: 30px;
+    border: none;
+    border-radius: 10px;
+    background-color: #007bff;
+    color: #ffffff;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #002fff;
+    transform: scale(1.02);
+    transition: all 0.3s ease-in-out;
+}
+
+.link {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center; /* จัดกึ่งกลางแนวนอน */
+    align-items: center; /* จัดกึ่งกลางแนวตั้ง */
+    text-align: center;
+}
+
+.link a {
+    color: #3d3d3dc2;
+    text-decoration: none;
+    font-size: 1.2rem; /* ปรับขนาดตัวอักษรให้เหมาะสม */
+    transition: color 0.3s ease;
+}
+
+.link a:hover {
+    text-decoration: underline;
+    color: #002fff;
+}
+
+#message {
+    margin-top: 10px;
+    font-size: 1rem;
+
+}
+
+#message.success {
+    color: green;
+}
+
+#message.error {
+    color: red;
+}
+
+
+/* Toast Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* สไตล์ของ Modal (Popup) */
+.modal {
+    display: none; /* ซ่อน Popup เริ่มต้น */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* พื้นหลังสีดำโปร่งแสง */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeInBackground 0.5s ease-out; /* การ fade-in */
+}
+
+/* ให้ป๊อปอัพไม่แสดงเมื่อหน้าโหลด */
+#popupModal {
+    display: none; /* ป๊อปอัพจะถูกซ่อนอยู่จนกว่าจะมีการกระทำบางอย่าง */
+    position: fixed;
+}
+
+/* การออกแบบกรอบของ Popup */
+.modal-content {
+    background: rgba(36, 33, 33, 0.85); /* กระจกโปร่งแสง */
+    color: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); /* เงาเบา */
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    animation: zoomIn 0.4s ease-out; /* การ zoom-in */
+}
+
+/* ไอคอนใน Popup */
+.modal-icon {
+    font-size: 70px;
+    margin-bottom: 20px;
+    color: #ffffff;
+    animation: bounce 1s ease infinite; /* การเคลื่อนไหวของไอคอน */
+}
+
+/* ปุ่มปิด (X) */
+.close-btn {
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    transition: color 0.7s ease-in-out;
+}
+
+.close-btn:hover {
+    color: #ffcc00; /* เปลี่ยนสีเมื่อ hover */
+}
+
+/* ข้อความใน Popup */
+#popupMessage {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+/* ปุ่มใน Modal */
+.modal-btn {
+    padding: 12px 25px;
+    background: linear-gradient(145deg, #443bf08e, #3b68ac);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.modal-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(145deg, #3b68ac, #443bf08e); /* เปลี่ยนสีเมื่อ hover */
+}
+
+/* การเคลื่อนไหว Animation */
+@keyframes fadeInBackground {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* การเคลื่อนไหวของไอคอน (bounce) */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+

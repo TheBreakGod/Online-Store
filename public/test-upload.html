@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test FormData Upload</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        textarea { width: 100%; height: 300px; border: 1px solid #ccc; font-family: monospace; }
+        button { padding: 10px 20px; margin: 10px 0; cursor: pointer; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Test FormData Upload</h1>
+    
+    <div>
+        <label>
+            Product Name: <input type="text" id="productName" placeholder="e.g., Test Product">
+        </label>
+    </div>
+    
+    <div>
+        <label>
+            Price: <input type="number" id="productPrice" placeholder="e.g., 100">
+        </label>
+    </div>
+    
+    <div>
+        <label>
+            Category: <input type="number" id="productCategory" placeholder="e.g., 1">
+        </label>
+    </div>
+    
+    <div>
+        <label>
+            Image File: <input type="file" id="productImage" accept="image/*">
+        </label>
+    </div>
+    
+    <button onclick="testUpload()">Upload Product</button>
+    
+    <h2>Response:</h2>
+    <textarea id="response" readonly></textarea>
+    
+    <script>
+        const responseEl = document.getElementById('response');
+        
+        async function testUpload() {
+            const name = document.getElementById('productName').value.trim();
+            const price = document.getElementById('productPrice').value.trim();
+            const category = document.getElementById('productCategory').value;
+            const imageFile = document.getElementById('productImage').files[0];
+            
+            if (!name || !price || !category) {
+                responseEl.textContent = 'Error: Fill all fields';
+                responseEl.className = 'error';
+                return;
+            }
+            
+            if (!imageFile) {
+                responseEl.textContent = 'Error: Select an image file';
+                responseEl.className = 'error';
+                return;
+            }
+            
+            try {
+                responseEl.textContent = 'Uploading...';
+                
+                const formData = new FormData();
+                formData.append('product_name', name);
+                formData.append('price', parseInt(price));
+                formData.append('category_id', parseInt(category));
+                formData.append('image', imageFile);
+                
+                // Log what we're sending
+                console.log('FormData entries:');
+                for (let [key, value] of formData.entries()) {
+                    console.log(`  ${key}:`, value);
+                }
+                
+                const response = await fetch('/api/admin/products', {
+                    method: 'POST',
+                    body: formData
+                    // DO NOT set Content-Type header - let browser set it
+                });
+                
+                const data = await response.json();
+                
+                responseEl.textContent = JSON.stringify({
+                    status: response.status,
+                    statusText: response.statusText,
+                    body: data
+                }, null, 2);
+                
+                responseEl.className = response.ok ? 'success' : 'error';
+                
+                if (response.ok) {
+                    console.log('✅ Upload successful:', data);
+                } else {
+                    console.error('❌ Upload failed:', data);
+                }
+                
+            } catch (error) {
+                responseEl.textContent = 'Error: ' + error.message + '\n\nStack:\n' + error.stack;
+                responseEl.className = 'error';
+                console.error('Exception during upload:', error);
+            }
+        }
+    </script>
+</body>
+</html>

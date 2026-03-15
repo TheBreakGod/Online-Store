@@ -3,93 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALL Online</title>
+    <title>ALL Easycart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="css/Login01.css">
+    <link rel="stylesheet" href="./css/css-เมนูต่างๆ/Login.css">
 </head>
 <body>
-
-    <div class="image-section">
-        <img src="ine/a85bc1e0-1a22-11ee-beb4-15dd9170ec55.webp" alt="Login Illustration">
-    </div>
+    <img src="./ine/ช่วยออกแบบโล้โก้ ALL Easycart ให้หน่อย ขอสวยๆ-Photoroom.png" alt="Login Illustration" style="width: 950px;padding-left: 15px;">
 
     <div class="container">
         <div class="form-section">
             <h1>Login</h1>
 
             <form id="loginForm">
+                <label>Email:</label><span style="color: red;"> *</span></label>
                 <div class="input-group">
-                    <input type="email" id="email" placeholder="Email" required>
+                    <input type="email" id="email" placeholder="อีเมล" required="" style="border-right-width: 21px;">
                 </div>
+                <label>Password:</label><span style="color: red;"> *</span></label>
                 <div class="input-group">
-                    <input type="password" id="password" placeholder="Password" required>
-                </div>
-
-                <div class="link">
-                    <p><a href="./register.html" id="registerLink">สมัครสมาชิก</a> : <a href="./reset-password.html" id="resetLink">รีเซ็ตรหัสผ่าน</a></p>
+                    <input type="password" id="password" placeholder="รหัสผ่าน" required="" style="border-right-width: 21px;">
                 </div>
                 
-                <button type="submit">Login</button>
-                <div class="social-login">
-                    <button type="button" class="social-button google" onclick="socialLogin('google')">
-                        <i class="fab fa-google"></i>
-                    </button>
-                    <button type="button" class="social-button line" onclick="socialLogin('line')">
-                        <i class="fab fa-line"></i>
-                    </button>
-                    <button type="button" class="social-button facebook" onclick="socialLogin('facebook')">
-                        <i class="fab fa-facebook-f"></i>
-                    </button>
+                <button class="button">ยืนยัน</button>
+                
+                <div class="link">
+                    <p><a href="./register.html" id="registerLink">สมัครสมาชิก:</a><span style="color: red;"> *</span> / <a href="./reset-password.html" id="resetLink">รีเซ็ตรหัสผ่าน:</a><span style="color: red;"> *</span></p>
                 </div>
+
             </form>
             <p id="message"></p>
         </div>
     </div>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+    <div id="toast" class="toast"></div>
 
-            try {
-                const response = await fetch('http://localhost:3000/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-
-                const result = await response.json();
-                document.getElementById('message').textContent = result.message;
-
-                if (result.success) {
-                    window.location.href = 'indes01.html';
-                }
-            } catch (error) {
-                console.error('Error during login:', error);
-            }
-        });
-
-        // เพิ่มเอฟเฟกต์การจางหายเมื่อคลิกที่ลิงก์
-        function fadeOutAndRedirect(linkId, url) {
-            document.getElementById(linkId).addEventListener('click', function(event) {
-                event.preventDefault();
-                document.body.classList.add('fade-out'); // เพิ่มคลาส fade-out
-
-                // เปลี่ยนหน้าไปยังลิงก์ที่ตั้งไว้หลังจากเอฟเฟกต์จางหาย
-                setTimeout(() => {
-                    window.location.href = url;
-                }, 500); // ระยะเวลาเอฟเฟกต์ต้องตรงกับใน CSS
-            });
-        }
-
-        // เรียกฟังก์ชัน fadeOutAndRedirect สำหรับลิงก์แต่ละอัน
-        fadeOutAndRedirect('registerLink', './register.html');
-        fadeOutAndRedirect('resetLink', './reset-password.html');
-
-        function socialLogin(platform) {
-            alert(`Logging in with ${platform}`);
-        }
-    </script>
-</body>
+    <div id="popupModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-body">
+                <i class="fas fa-info-circle modal-icon"></i>
+                <p id="popupMessage"></p>
+            </div>
+            <button class="modal-btn" onclick="closePopup()">ตกลง</button>
+        </div>
+    </div>
+    
+    <script src="./js/js-Login/Login.js"></script>
+  </body>
 </html>

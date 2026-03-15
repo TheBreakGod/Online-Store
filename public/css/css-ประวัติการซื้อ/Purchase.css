@@ -1,0 +1,224 @@
+/* ฟอนต์ที่ใช้ในทั้งหน้า */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* ปรับรูปแบบของ header */
+header {
+    background-color: #5e35b1;
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-container h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+/* สไตล์สำหรับเนื้อหาภายใน */
+.content {
+    padding: 30px 15px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#purchase-history {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+/* Order Card */
+.order-card {
+    background: #fafafa;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Order Header */
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #eee;
+}
+
+.order-id {
+    font-size: 13px;
+    color: #888;
+    font-family: monospace;
+}
+
+.order-status {
+    color: white;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Order Items */
+.order-items {
+    margin-bottom: 15px;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.order-item:last-child {
+    border-bottom: none;
+}
+
+.item-name {
+    flex: 2;
+    font-weight: 500;
+    color: #5e35b1;
+}
+
+.item-detail {
+    flex: 1;
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+}
+
+.item-total {
+    flex: 1;
+    text-align: right;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Order Footer */
+.order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 2px solid #eee;
+}
+
+.order-total {
+    font-size: 18px;
+    font-weight: 700;
+    color: #5e35b1;
+}
+
+.order-date {
+    font-size: 13px;
+    color: #999;
+}
+
+/* Order Address */
+.order-address {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: #f0fdf4;
+    border-left: 3px solid #4CAF50;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Order Actions */
+.order-actions {
+    margin-top: 12px;
+    text-align: right;
+}
+
+.cancel-btn {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.cancel-btn:hover {
+    background: #d32f2f;
+    transform: scale(1.03);
+}
+
+.cancel-pending-text {
+    color: #ff5722;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ปุ่มกลับหน้าหลัก */
+.back-button-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.back-button {
+    background-color: #ff6f61;
+    color: white;
+    padding: 15px 25px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #ff4e42;
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header-container h1 {
+        font-size: 1.8rem;
+    }
+    .order-header {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .order-item {
+        flex-direction: column;
+        gap: 4px;
+        align-items: flex-start;
+    }
+    .item-detail, .item-total {
+        text-align: left;
+    }
+    .order-footer {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .back-button {
+        font-size: 1rem;
+        padding: 12px 20px;
+    }
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อมูลลูกค้า</title>
+    <link rel="stylesheet" href="./css/css-เมนูต่างๆ/display-customer-info.css"> <!-- ลิงค์ไปยังไฟล์ CSS -->
+</head>
+<body>
+    <header>
+        <h1>ข้อมูลลูกค้า</h1>
+    </header>
+
+    <section id="customer-info">
+        <h2>ข้อมูลของคุณ</h2>
+        <div id="customer-details">
+            <!-- ข้อมูลลูกค้าจะแสดงที่นี่ -->
+        </div>
+        <button onclick="window.location.href='indes01.html'">กลับไปที่หน้าแรก</button>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 ระบบจัดการข้อมูลลูกค้า</p>
+    </footer>
+
+    <script>
+        window.onload = function () {
+            // เรียกข้อมูลจาก API PHP
+            fetch('http://localhost:3000/get-customers')  // URL ของ API ที่สร้างใน Express
+                .then(response => response.json())  // รับข้อมูลที่เป็น JSON
+                .then(data => {
+                    if (data.length > 0) {
+                        const customerDetails = document.getElementById('customer-details');
+                        data.forEach(customer => {
+                            customerDetails.innerHTML += `
+                                <p><strong>ชื่อ:</strong> ${customer.name}</p>
+                                <p><strong>อีเมล:</strong> ${customer.email}</p>
+                                <p><strong>โทรศัพท์:</strong> ${customer.phone}</p>
+                                <p><strong>ที่อยู่:</strong> ${customer.address}</p>
+                                <p><strong>เมือง:</strong> ${customer.city}</p>
+                                <p><strong>รหัสไปรษณีย์:</strong> ${customer.postal}</p>
+                            `;
+                        });
+                    } else {
+                        alert('ไม่พบข้อมูลลูกค้า');
+                    }
+                })
+                .catch(error => {
+                    console.error('เกิดข้อผิดพลาด:', error);
+                    alert('ไม่สามารถดึงข้อมูลลูกค้าได้');
+                });
+        };
+        
+    </script>
+</body>
+</html>

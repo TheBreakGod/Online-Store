@@ -1,0 +1,101 @@
+/* รีเซ็ตค่าพื้นฐาน */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+/* Body */
+body {
+    background: linear-gradient(135deg, #f9f9f9, #e0f2f1);
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    background: linear-gradient(to right, #42a5f5, #1e88e5);
+    color: #fff;
+    text-align: center;
+    padding: 1.5rem 0;
+    font-size: 1.8rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+    font-weight: 600;
+}
+
+/* Section: Customer Info */
+#customer-info {
+    background: #fff;
+    margin: 2rem auto;
+    padding: 2rem 2.5rem;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+#customer-info h2 {
+    color: #1e88e5;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+}
+
+/* Customer Details */
+#customer-details {
+    text-align: left;
+    margin: 1rem 0;
+}
+
+#customer-details p {
+    font-size: 1rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #ffffff;
+    color: #555;
+}
+
+#customer-details p strong {
+    color: #1e88e5;
+    font-weight: 600;
+}
+
+/* Button */
+button {
+    background: linear-gradient(to right, #42a5f5, #1e88e5);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    background: linear-gradient(to right, #1e88e5, #1976d2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer */
+footer {
+    background: #1e88e5;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: auto;
+    font-size: 0.9rem;
+}
+
+footer p {
+    margin: 0;
+}

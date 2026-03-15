@@ -3,137 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>หน้าหลัก</title>
+    <title>ALL Easycart</title>
     <link rel="stylesheet" href="./css/styles01.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
     <header>
-        <h1>ALL Online</h1>
+        <div class="image-section">
+            <img src="./ine/ช่วยออกแบบโล้โก้ ALL Easycart ให้หน่อย ขอสวยๆ-Photoroom.png" alt="Login Illustration" style="width: 490px;height: 250px;padding-left: 117px;">
+        </div>
+
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
+            <input type="text" class="box" placeholder="Search" id="searchInput" oninput="searchProducts()">
+            <a href="#" class="search-icon"><i class="searchnaja"></i></a>
         </div>
-        <div class="cart-icon" onclick="toggleCart()">
-            🛒
-            <div class="cart-count" id="cartCount">0</div>
+
+        <div class="cart-icon" id="01" onclick="toggleCart()" style="margin-top: 10px;margin-left: 0px;margin-right: 30px;"> 
+                🛒 <div class="cart-count" id="cartCount">0</div>
+        </div>   
+
+        <!-- ตะกร้าสินค้า -->
+        <div id="cart-container" class="cart-container"> 
+            <div class="cart-header">
+                <h2>ตะกร้าสินค้า</h2>
+                <div class="cart-header-buttons">
+                    <div id="cartHeaderSummary">
+                        <div>
+                            <p class="cart-summary-label">จำนวนสินค้า</p>
+                            <p class="cart-summary-value"><span id="cartHeaderItemCount">0</span> ชิ้น</p>
+                        </div>
+                        <div>
+                            <p class="cart-summary-label">ราคารวม</p>
+                            <p class="cart-summary-value"><span id="cartHeaderTotal">0</span> ฿</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button onclick="closeCart()">ปิด</button>
+                        <button onclick="clearCart()">ลบทั้งหมด</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="cartItems" class="cart-items">
+                <!-- รายการสินค้าในตะกร้าจะแสดงที่นี่ -->
+            </div>
+            
+            <div class="cart-footer">
+                <button onclick="checkout()" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #3498db, #2980b9); color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;">ดำเนินการชำระเงิน</button>
+            </div>
         </div>
-        <a href="customer-info.html" class="customer-icon">
-            <i class="fas fa-user-circle"></i>
-        </a>
-    </header>
-
-    <div class="image-slider">
-        <div class="slides">
-            <div class="slide"><img src="./ine/1633x130-(1)-copy-251638-0.webp" alt="Image 1"></div>
-            <div class="slide"><img src="https://www.allonline.7eleven.co.th/media/i/1663x130-(3)-copy-251704-0.webp" alt="Image 2"></div>
-            <div class="slide"><img src="./ine/1633x130-(1)-copy-251638-0.webp" alt="Image 3"></div>
-            <div class="slide"><img src="https://www.allonline.7eleven.co.th/media/i/1663x130-(3)-copy-251704-0.webp" alt="Image 4"></div>
-            <div class="slide"><img src="./ine/1633x130-(1)-copy-251638-0.webp" alt="Image 5"></div>
-            <div class="slide"><img src="https://www.allonline.7eleven.co.th/media/i/1663x130-(3)-copy-251704-0.webp" alt="Image 6"></div>
-            <div class="slide"><img src="./ine/1633x130-(1)-copy-251638-0.webp" alt="Image 7"></div>
-            <div class="slide"><img src="https://www.allonline.7eleven.co.th/media/i/1663x130-(3)-copy-251704-0.webp" alt="Image 8"></div>
-        </div>
-    </div>
-
-    <ul class="category-menu">
-        <li><a href="Books.html">หนังสือ นิตยสาร เครื่องเขียน</a></li>
-        <li><a href="mother.html">แม่และเด็ก</a></li>
-        <li><a href="health.html">สุขภาพ ออกกำลังกาย</a></li>
-        <li><a href="electrical.html">เครื่องใช้ไฟฟ้า</a></li>
-        <li><a href="garden.html">บ้านและสวน</a></li>
-        <li><a href="beauty.html">ความงาม</a></li>
-        <li><a href="fashion.html">แฟชั่น</a></li>
-        <li><a href="mobile.html">มือถือ แกดเจ็ต</a></li>
-    </ul>
-
-    <div id="product-container" class="product-container"></div>
-
-    <div class="pagination">
-        <button onclick="changePage(-1)" id="prevBtn" disabled>Prev</button>
-        <span id="pageNumbers"></span>
-        <button onclick="changePage(1)" id="nextBtn">Next</button>
-
-    <div id="cart" style="display: none;">
-        <h2>Cart Items</h2>
-        <div id="cartItems"></div>
-        <button onclick="toggleCart()">Close Cart</button>
-    </div>
-
-    <script src="./js/script.js"></script>
-
-
     
-    <script>
+        <div id="overlay" class="overlay"></div>
+        <div class="customer-menu">
+            <a href="customer-info.html" class="customer-icon" onclick="toggleMenu(event)">
+                <i class="fas fa-user-circle"></i>
+            </a>
 
-        let cartItems = {};
+            <div id="dropdownMenu" class="dropdown hidden">
+                <ul>
+                    <li><a href="customer-info.html">ข้อมูลลูกค้า</a></li>
+                    <li><a href="purchase-histor.html">ประวัติการซื้อ</a></li>
+                    <li><a href="purchase-history.html">ติดต่อเรา</a></li><br>
+                    <li><a href="login.html">ลงชื่อออก</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+   
+    <div class="image-slider"style=" border-bottom-width: 20px;">
+        <div class="slides">
+        <div class="slide"><img src="./ine/1.png" alt="Image 1" style="margin-top: 0px;"> </div>
+        <div class="slide"><img src="./ine/2.png" alt="Image 2" style="margin-top: 0px;"> </div>
+        <div class="slide"><img src="./ine/1633x130_valentine-copy-259477-0.webp" alt="Image 3" style="margin-top: 0px;"> </div>
+        <div class="slide"><img src="./ine/1633x130---Copy-261425-0.jpg" alt="Image 4" style="margin-top: 0px;"> </div>
 
-        fetch('http://localhost/api/products') 
-            .then(response => response.json())
-            .then(data => {
-                const productContainer = document.getElementById('product-container');
-                
-                if (!data || data.length === 0) {
-                    productContainer.innerHTML = '<p>No products found.</p>';
-                    return;
-                }
+        <div class="slide"><img src="./ine/1.png" alt="Image 5" style="margin-top: 0px;"> </div>
+        <div class="slide"><img src="./ine/2.png" alt="Image 6" style="margin-top: 0px;"> </div>
+        <div class="slide"><img src="./ine/1633x130_valentine-copy-259477-0.webp" alt="Image 7" style="margin-top: 0px;"> </div>
+        <div class="slide"><img src="./ine/1633x130---Copy-261425-0.jpg" alt="Image 8" style="margin-top: 0px;"> </div> 
 
-                data.forEach(product => {
-                    const productDiv = document.createElement('div');
-                    productDiv.classList.add('product-item');
-                    
-                    const imageUrl = `/uploads/${product.product_image}`;
-                    productDiv.innerHTML = `
-                        <img src="${imageUrl}" alt="${product.product_name}" />
-                        <h3>${product.product_name}</h3>
-                        <p>Price: ${product.price} บาท</p>
-                        <button onclick="addToCart(${product.id}, '${product.product_name}', ${product.price})">Add to Cart</button>
-                    `;
-                    
-                    productContainer.appendChild(productDiv);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching products:', error);
-            });
+        <div class="slide"><img src="./ine/1.png" alt="Image 9" style="margin-top: 0px;"> </div>
+        <div class="slide"><img src="./ine/2.png" alt="Image 10" style="margin-top: 0px;"> </div>
+        <div class="slide"><img src="./ine/1633x130_valentine-copy-259477-0.webp" alt="Image 11" style="margin-top: 0px;"> </div>
+        <div class="slide"><img src="./ine/1633x130---Copy-261425-0.jpg" alt="Image 12" style="margin-top: 0px;"> </div>
 
+        <div class="slide"><img src="./ine/1.png" alt="Image 13" style="margin-top: 0px;"> </div>
+        <div class="slide"><img src="./ine/2.png" alt="Image 14" style="margin-top: 0px;"> </div>
+        <div class="slide"><img src="./ine/1633x130_valentine-copy-259477-0.webp" alt="Image 15" style="margin-top: 0px;"> </div>
+        <div class="slide"><img src="./ine/1633x130---Copy-261425-0.jpg" alt="Image 16" style="margin-top: 0px;"> </div>
 
+        <div class="slide"><img src="./ine/1.png" alt="Image 17" style="margin-top: 0px;"> </div>
+        <div class="slide"><img src="./ine/2.png" alt="Image 18" style="margin-top: 0px;"> </div>
+        <div class="slide"><img src="./ine/1633x130_valentine-copy-259477-0.webp" alt="Image 19" style="margin-top: 0px;"> </div>
+        <div class="slide"><img src="./ine/1633x130---Copy-261425-0.jpg" alt="Image 20" style="margin-top: 0px;"> </div>
+      </div>
+    </div>    
 
-function addToCart(productId, productName, productPrice) {
-    if (cartItems[productId]) {
-        cartItems[productId].quantity += 1; // หากสินค้าถูกเพิ่มไปแล้วในตะกร้า ก็เพิ่มจำนวนสินค้า
-    } else {
-        cartItems[productId] = { name: productName, price: productPrice, quantity: 1 }; // ถ้าไม่มีสินค้าในตะกร้า ก็เพิ่มสินค้าใหม่
-    }
-    updateCartCount(); // เรียกฟังก์ชันเพื่ออัปเดตจำนวนสินค้าทั้งหมดในตะกร้า
-}
-
-
-      function updateCartCount() {
-    const totalItems = Object.values(cartItems).reduce((sum, item) => sum + item.quantity, 0);
-    document.getElementById('cartCount').innerText = totalItems; // อัปเดตจำนวนสินค้าในตะกร้าที่แสดง
-}
-
-
-
-function toggleCart() {
-    const cart = document.getElementById('cart');
-    cart.style.display = (cart.style.display === 'none' || cart.style.display === '') ? 'block' : 'none'; // เปิด/ปิดการแสดงตะกร้า
-    renderCartItems(); // เรียกฟังก์ชัน renderCartItems เพื่อแสดงรายการสินค้าทั้งหมดในตะกร้า
-}
-
-
-function renderCartItems() {
-    const cartItemsDiv = document.getElementById('cartItems');
-    cartItemsDiv.innerHTML = ''; // ล้างรายการสินค้าก่อน
-
-    Object.values(cartItems).forEach(item => {
-        const div = document.createElement('div');
-        div.innerHTML = `<strong>${item.name}</strong> x ${item.quantity} - ฿${item.price * item.quantity}`; // แสดงชื่อสินค้า จำนวน และราคาทั้งหมด
-        cartItemsDiv.appendChild(div); // เพิ่มรายการสินค้าในตะกร้า
-    });
-}
-
-    </script>
+    <ul class="category-menu" style="border-right-width: 5px;border-top-width: 5px;border-left-width: 5px;border-bottom-width: 12px;">
+        <li><a href="#" data-category="1" class="category-link"><i class="fas fa-shopping-cart"></i>  ซูเปอร์มาร์เก็ต</a></li>
+        <li><a href="#" data-category="2" class="category-link"><i class="fas fa-book"></i> หนังสือ </a></li>
+        <li><a href="#" data-category="3" class="category-link"><i class="fas fa-baby"></i> แม่และเด็ก</a></li>
+        <li><a href="#" data-category="4" class="category-link"><i class="fas fa-heartbeat"></i> สุขภาพ </a></li>
+        <li><a href="#" data-category="5" class="category-link"><i class="fas fa-plug"></i> เครื่องใช้ไฟฟ้า</a></li>
+        <li style="padding-top: 0px;"><a href="#" data-category="6" class="category-link"><i class="fas fa-seedling"></i> บ้านและสวน</a></li>
+        <li style="padding-top: 0px;"><a href="#" data-category="7" class="category-link"><i class="fas fa-magic"></i> ความงาม</a></li>
+        <li style="padding-top: 0px;"><a href="#" data-category="8" class="category-link"><i class="fas fa-tshirt"></i> แฟชั่น</a></li>
+        <li style="padding-top: 0px;"><a href="#" data-category="9" class="category-link"><i class="fas fa-mobile-alt"></i> มือถือ</a></li>
+        <li style="padding-top: 0px;"><a href="#" data-category="10" class="category-link"><i class="fas fa-paw"></i> สัตว์เลี้ยง</a></li>
+    </ul>
+    
+    <!-- ด้านล่างนี้คือพื้นที่แสดงสินค้า -->
+    <div id="product-container" style="margin-top: 15px;"></div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h2>เกี่ยวกับเรา</h2>
+                <p>เราเป็นร้านค้าออนไลน์ที่นำเสนอสินค้าคุณภาพหลากหลายประเภทจากหลากหลายแบรนด์ เพื่อตอบสนองความต้องการของลูกค้าทุกท่าน เรามีการบริการที่รวดเร็วและเชื่อถือได้</p>
+            </div>
+    
+            <div class="footer-section contact">
+                <h2>ติดต่อเรา</h2>
+                <p><i class="fas fa-phone"></i> โทร: 02-123-4567</p>
+                <p><i class="fas fa-envelope"></i> อีเมล์: wgiiop09@icloud.com</p>
+            </div>
+    
+            <div class="footer-section social-media">
+                <h2>ติดตามเรา</h2>
+                <a href="https://www.facebook.com" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </footer>       
+    
+    <button id="scrollToTop" class="scroll-to-top">
+        <i class="fas fa-arrow-up"></i> <!-- ใช้ Font Awesome icon -->
+    </button>     
+    
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
+    <script src="./js/script.js"></script>
 </body>
 </html>
+
+
+
+
+

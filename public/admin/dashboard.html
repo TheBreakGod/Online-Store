@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Online Store</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>Online Store</h2>
+                <p>Admin Panel</p>
+            </div>
+
+            <nav class="menu">
+                <a href="#dashboard" class="menu-item active" data-page="dashboard">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#products" class="menu-item" data-page="products">
+                    <span class="icon">📦</span>
+                    <span>Products</span>
+                </a>
+                <a href="#orders" class="menu-item" data-page="orders">
+                    <span class="icon">📋</span>
+                    <span>Orders</span>
+                </a>
+            </nav>
+
+            <div class="admin-user">
+                <div class="user-info">
+                    <div class="user-avatar">👤</div>
+                    <div>
+                        <p id="adminName">Admin</p>
+                        <small id="adminEmail">admin@easyshop.com</small>
+                    </div>
+                </div>
+                <button id="logoutBtn" class="logout-btn">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <h1 id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <button id="refreshBtn" class="refresh-btn">🔄 Refresh</button>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Dashboard Page -->
+                <div id="dashboard-page" class="page-content active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">📦</div>
+                            <div class="stat-info">
+                                <p class="stat-label">Total Products</p>
+                                <h3 class="stat-value" id="totalProducts">0</h3>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">📋</div>
+                            <div class="stat-info">
+                                <p class="stat-label">Total Orders</p>
+                                <h3 class="stat-value" id="totalOrders">0</h3>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-info">
+                                <p class="stat-label">Total Revenue</p>
+                                <h3 class="stat-value" id="totalRevenue">฿0</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <!-- Recent Orders -->
+                        <div class="dashboard-card">
+                            <h3>Recent Orders</h3>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentOrdersTable">
+                                    <tr>
+                                        <td colspan="5" class="text-center">Loading...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Top Products -->
+                        <div class="dashboard-card">
+                            <h3>Top Products</h3>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Price</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="topProductsTable">
+                                    <tr>
+                                        <td colspan="4" class="text-center">Loading...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Page -->
+                <div id="products-page" class="page-content">
+                    <div class="page-header">
+                        <div class="search-bar">
+                            <input 
+                                type="text" 
+                                id="productSearch" 
+                                placeholder="ค้นหาชื่อสินค้า..."
+                                class="search-input"
+                            >
+                            <button id="searchProductBtn" class="btn btn-primary" style="margin-left: 8px;">🔍 ค้นหา</button>
+                            <select id="categoryFilter" class="filter-select">
+                                <option value="">หมวดหมู่ทั้งหมด</option>
+                                <option value="2">หนังสือ นิตยสาร เครื่องเขียน</option>
+                                <option value="3">แม่และเด็ก</option>
+                                <option value="4">สุขภาพ ออกกำลังกาย</option>
+                                <option value="5">เครื่องใช้ไฟฟ้า</option>
+                                <option value="6">บ้านและสวน</option>
+                                <option value="7">ความงาม</option>
+                                <option value="8">แฟชั่น</option>
+                                <option value="9">มือถือ แกดเจ็ต</option>
+                                <option value="10">สัตว์เลี้ยง</option>
+                            </select>
+                        </div>
+                        <button id="addProductBtn" class="btn btn-primary">+ Add Product</button>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTable">
+                            <tr>
+                                <td colspan="5" class="text-center">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination" id="productsPagination"></div>
+                </div>
+
+                <!-- Orders Page -->
+                <div id="orders-page" class="page-content">
+                    <!-- New Orders Section -->
+                    <div class="order-section">
+                        <div class="section-header">
+                            <h3>📋 New Orders <span class="count-badge" id="newOrdersCount">0</span></h3>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Products</th>
+                                    <th>Items</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="newOrdersBody">
+                                <tr><td colspan="7" class="text-center">No new orders</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Processing Orders Section -->
+                    <div class="order-section">
+                        <div class="section-header">
+                            <h3>⚙️ Processing Orders <span class="count-badge" id="processingOrdersCount">0</span></h3>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Products</th>
+                                    <th>Items</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="processingOrdersBody">
+                                <tr><td colspan="7" class="text-center">No processing orders</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- In Transit Section -->
+                    <div class="order-section">
+                        <div class="section-header">
+                            <h3>🚚 In Transit <span class="count-badge" id="inTransitOrdersCount">0</span></h3>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Products</th>
+                                    <th>Items</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inTransitOrdersBody">
+                                <tr><td colspan="7" class="text-center">No in transit orders</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Delivered Orders Section -->
+                    <div class="order-section">
+                        <div class="section-header">
+                            <h3>✅ Delivered <span class="count-badge" id="deliveredOrdersCount">0</span></h3>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Products</th>
+                                    <th>Items</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="deliveredOrdersBody">
+                                <tr><td colspan="7" class="text-center">No delivered orders</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Cancel Requested Orders -->
+                    <div class="order-section" style="border-left: 4px solid #ff5722;">
+                        <div class="section-header">
+                            <h3>🚫 ขอยกเลิก <span class="count-badge" style="background:#ff5722;" id="cancelRequestedOrdersCount">0</span></h3>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Products</th>
+                                    <th>Items</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cancelRequestedOrdersBody">
+                                <tr><td colspan="7" class="text-center">No cancel requests</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Add Product</h2>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" id="productPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="productCategory" required>
+                        <option value="1">ซูเปอร์มาร์เก็ต</option>
+                        <option value="2">หนังสือ นิตยสาร เครื่องเขียน</option>
+                        <option value="3">แม่และเด็ก</option>
+                        <option value="4">สุขภาพ ออกกำลังกาย</option>
+                        <option value="5">เครื่องใช้ไฟฟ้า</option>
+                        <option value="6">บ้านและสวน</option>
+                        <option value="7">ความงาม</option>
+                        <option value="8">แฟชั่น</option>
+                        <option value="9">มือถือ แกดเจ็ต</option>
+                        <option value="10">สัตว์เลี้ยง</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Upload Image</label>
+                    <input type="file" id="product_image_file" accept="image/*">
+                    <div id="imagePreview" class="image-preview" style="display: none; margin-top: 10px;">
+                        <img id="previewImg" src="" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 5px;">
+                        <button type="button" id="removeImageBtn" class="btn btn-danger btn-small" style="margin-top: 10px;">✕ Remove Image</button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Product</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="orderModal" class="modal">
+        <div class="modal-content" style="max-width: 700px; max-height: 80vh; overflow-y: auto;">
+            <span class="close">&times;</span>
+            <h2>📋 รายละเอียดออเดอร์</h2>
+            <div id="orderDetailContent" style="padding: 15px;">Loading...</div>
+            <div style="text-align: right; padding: 10px 15px;">
+                <button class="btn btn-secondary" onclick="document.getElementById('orderModal').classList.remove('show')">ปิด</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

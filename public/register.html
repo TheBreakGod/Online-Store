@@ -3,89 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALL Online - สมัครสมาชิก</title>
-    <link rel="stylesheet" href="css/register01.css">
+    <title>ALL Easycart - สมัครสมาชิก</title>
+    <!-- ลิงก์ CSS -->
+    <link rel="stylesheet" href="./css/css-เมนูต่างๆ/register.css">
+    <!-- ลิงก์ SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-
-    <div class="image-01">
-        <img src="./ine/พนันงาน เซเว่น-Photoroom.jpg" alt="Login Illustration">
-    </div>
-
-    <div class="container fade-in">
-        <h1>สมัครสมาชิก</h1>
-        <form id="registerForm">
-
-            <br><div class="input-group">
-                <label>ชื่อผู้ใช้งาน:</label><br>
-                <br><input type="text" id="name" placeholder="Full Name" required> <br>
+    <div class="container">
+        <div class="image-container">
+            <div class="image-01">
+                <img src="./ine/พนันงาน เซเว่น-Photoroom-Photoroom.png" 
+                     alt="Login Illustration" style="width: 450px;">
             </div>
+        </div>
 
-            <br><div class="input-group">
-                <label>อีเมล:</label><br>
-                <br><input type="email" id="email" placeholder="Email" required> <br>
-            </div>
+        <div class="form-container" style="padding-right: 250px;">
+            <h1>สมัครสมาชิก</h1>
+            <form id="registerForm">
+                <!-- ชื่อผู้ใช้งาน -->
+                <div class="input-group">
+                    <label>ชื่อผู้ใช้งาน:</label><span style="color: red;">*</span>
+                    <input type="text" id="username" placeholder="Username" required>
+                </div>
 
-            <br> <div class="input-group">
-                <label>รหัสผ่าน:</label><br>
-                <br><input type="password" id="password" placeholder="Password" required> <br>
-            </div>
+                <!-- อีเมล -->
+                <div class="input-group">
+                    <label>อีเมล:</label><span style="color: red;">*</span>
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
 
-            <br><div class="input-group">
-                <label>ยืนยันรหัสผ่าน:</label><br>
-                <br><input type="password" id="confirmPassword" placeholder="Confirm Password" required> <br>
-            </div>
+                <!-- รหัสผ่าน -->
+                <div class="input-group">
+                    <label>รหัสผ่าน:</label><span style="color: red;">*</span>
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
 
-            <button type="submit">Register</button>
-        </form>
-        
-        <p id="message"></p>
-        <div class="link">
-            <p>มีบัญชีอยู่แล้ว? <a href="/login.html" id="loginLink">เข้าสู่ระบบที่นี่</a></p>
+                <!-- ยืนยันรหัสผ่าน -->
+                <div class="input-group">
+                    <label>ยืนยันรหัสผ่าน:</label><span style="color: red;">*</span>
+                    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                </div>
+
+                <button type="submit" style="width: 580px;">สมัครสมาชิก</button>
+
+                <p id="message"></p>
+                <div class="link">
+                    <p>มีบัญชีอยู่แล้ว? <a href="./login.html" id="loginLink">เข้าสู่ระบบที่นี่</a></p>
+                </div>
+            </form>
         </div>
     </div>
 
-    <script>
-        document.getElementById('registerForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-
-            if (password !== confirmPassword) {
-                document.getElementById('message').textContent = "Passwords do not match!";
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, password })
-                });
-
-                const result = await response.json();
-                document.getElementById('message').textContent = result.message;
-
-                if (result.success) {
-                    document.body.classList.add('fade-out');
-                    setTimeout(() => {
-                        window.location.href = '/login.html';
-                    }, 500);
-                }
-            } catch (error) {
-                console.error('Error during registration:', error);
-            }
-        });
-
-        document.getElementById('loginLink').addEventListener('click', function(event) {
-            event.preventDefault();
-            document.body.classList.add('fade-out');
-            setTimeout(() => {
-                window.location.href = '/login.html';
-            }, 500);
-        });
-    </script>
+    <!-- ลิงก์ JavaScript -->
+    <script src="./js/js-Login/register.js"></script>
 </body>
 </html>
