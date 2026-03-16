@@ -9,11 +9,19 @@
 </head>
 <body>
     <div class="admin-container">
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <button class="menu-toggle" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1>Online Store</h1>
+        </div>
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <h1>Online Store</h1>
-                <i class="fas fa-bars"></i>
+                <i class="fas fa-times close-sidebar" onclick="toggleSidebar()"></i>
             </div>
             <nav class="sidebar-nav">
                 <a href="#" class="nav-item active" data-page="dashboard">

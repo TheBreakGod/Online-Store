@@ -8,11 +8,18 @@
 </head>
 <body>
     <div class="admin-container">
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+            <h1>Online Store</h1>
+        </div>
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
         <!-- Sidebar Navigation -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="logo">
                 <h2>Online Store</h2>
                 <p>Admin Panel</p>
+                <span class="close-sidebar" onclick="toggleSidebar()">✕</span>
             </div>
 
             <nav class="menu">

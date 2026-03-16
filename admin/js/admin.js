@@ -5,6 +5,14 @@ let currentOrdersPage = 1;
 let currentProductsPage = 1;
 let currentCustomersPage = 1;
 
+// Toggle sidebar for mobile
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     adminToken = localStorage.getItem('adminToken');
@@ -21,6 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const page = item.getAttribute('data-page');
             switchPage(page);
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+                document.querySelector('.sidebar-overlay').classList.remove('show');
+            }
         });
     });
 

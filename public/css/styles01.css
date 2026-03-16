@@ -141,20 +141,57 @@ header h1 {
     header {
         flex-direction: column;
         align-items: center;
-        padding: 15px;
+        padding: 10px;
+        height: auto;
+        padding-right: 10px;
+        gap: 8px;
+    }
+
+    header .image-section img {
+        width: 220px !important;
+        height: auto !important;
+        padding-left: 0 !important;
     }
 
     .search-container {
-        width: 100%;  /* ให้ช่องค้นหาเต็มหน้าจอ */
-        margin-bottom: 10px;  /* ระยะห่างระหว่างช่องค้นหากับไอคอน */
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 8px;
+    }
+
+    .search-container input {
+        width: 100%;
+        padding: 10px 15px;
     }
 
     .cart-icon {
-        margin-top: 10px;
+        margin: 5px 10px !important;
+        font-size: 28px;
     }
 
     .customer-icon {
-        margin-top: 10px;
+        font-size: 40px;
+        padding-right: 10px !important;
+        padding-left: 0;
+    }
+
+    .dropdown {
+        right: 0;
+        width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    header .image-section img {
+        width: 160px !important;
+    }
+
+    .cart-icon {
+        font-size: 24px;
+    }
+
+    .customer-icon {
+        font-size: 32px;
     }
 }
 
@@ -560,6 +597,56 @@ header h1 {
     color: white;
     text-align: center;
 }
+
+/* Cart responsive for mobile */
+@media (max-width: 768px) {
+    .cart-container {
+        width: 95%;
+        height: 95vh;
+        padding: 10px;
+    }
+
+    .cart-header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        min-height: auto;
+    }
+
+    .cart-header h2 {
+        font-size: 18px;
+    }
+
+    .cart-header-buttons {
+        position: static;
+        transform: none;
+        width: 100%;
+        align-items: center;
+    }
+
+    #cartHeaderSummary {
+        gap: 15px !important;
+        padding: 8px 10px !important;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cart-items {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .cart-item img {
+        width: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cart-items {
+        grid-template-columns: 1fr;
+    }
+}
 /* ตะกร้า */
 
 
@@ -625,22 +712,39 @@ header h1 {
 /* สไตล์เมนูสำหรับหน้าจอขนาดเล็ก */
 @media (max-width: 768px) {
     .category-menu {
-        flex-direction: column; /* แสดงเมนูในแนวตั้ง */
-        align-items: center;
-        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+        border-width: 3px;
+        border-radius: 12px;
+        padding: 8px;
+        width: 95%;
     }
 
     .category-menu li {
-        flex: 1 1 100%; /* ทำให้แต่ละรายการเต็มความกว้าง */
-        margin-bottom: 15px; /* ลดระยะห่างระหว่างรายการ */
+        flex: 1 1 30%;
+        max-width: 30%;
+        margin-bottom: 5px;
+        padding: 6px;
     }
 
     .category-menu i {
-        font-size: 20px; /* ขนาดไอคอนเล็กลงบนมือถือ */
+        font-size: 18px;
     }
 
     .category-menu a {
-        font-size: 16px; /* ขนาดตัวอักษรใหญ่ขึ้น */
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-menu li {
+        flex: 1 1 45%;
+        max-width: 45%;
+    }
+
+    .category-menu a {
+        font-size: 10px;
     }
 }
 

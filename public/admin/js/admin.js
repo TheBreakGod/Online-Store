@@ -1,6 +1,14 @@
 // ===================== UTILITY FUNCTIONS =====================
 const getAdminToken = () => localStorage.getItem('adminToken');
 
+// Toggle sidebar for mobile
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+}
+
 const checkAdminAuth = () => {
     const token = getAdminToken();
     if (!token) {
@@ -62,6 +70,11 @@ function setupEventListeners() {
         item.addEventListener('click', (e) => {
             e.preventDefault();
             switchPage(item.dataset.page);
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+                document.querySelector('.sidebar-overlay').classList.remove('show');
+            }
         });
     });
 
