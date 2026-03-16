@@ -244,6 +244,13 @@ app.post('/api/register', async (req, res) => {
             });
         }
 
+        if (password.length < 4 || password.length > 10) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'รหัสผ่านต้องมีความยาวระหว่าง 4 ถึง 10 ตัวอักษร' 
+            });
+        }
+
         // ตรวจสอบ username ซ้ำ
         const existingUsername = await User.findOne({ username });
         if (existingUsername) {

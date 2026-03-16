@@ -8,10 +8,10 @@ resetForm.addEventListener('submit', async (e) => {
     const confirmPassword = document.getElementById('confirmPassword').value;
 
     // ตรวจสอบความยาวของรหัสผ่าน
-    if (newPassword.length < 4 || newPassword.length > 8) {
+    if (newPassword.length < 4 || newPassword.length > 10) {
         Swal.fire({
             title: 'Error!',
-            text: 'รหัสผ่านต้องมีความยาวระหว่าง 4 ถึง 8 ตัวอักษร!',
+            text: 'รหัสผ่านต้องมีความยาวระหว่าง 4 ถึง 10 ตัวอักษร!',
             icon: 'error',
             confirmButtonText: 'OK',
             confirmButtonColor: '#007BFF',
