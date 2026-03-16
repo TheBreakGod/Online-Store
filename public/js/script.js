@@ -48,6 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ========== FETCH & DISPLAY PRODUCTS ==========
 function fetchProducts(categoryId) { 
+    // หมวดซูเปอร์มาร์เก็ต (1) = แสดงสินค้าทุกหมวด
+    if (categoryId === '1' || categoryId === 1) categoryId = null;
     console.log('🔄 Fetching products for category:', categoryId || 'all');
     
     let url = '/api/products';

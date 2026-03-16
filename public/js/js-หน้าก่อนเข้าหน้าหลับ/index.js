@@ -52,7 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function fetchProducts(categoryId) { 
-    fetch(`/api/products?category=${categoryId}`)
+    // หมวดซูเปอร์มาร์เก็ต (1) = แสดงสินค้าทุกหมวด
+    if (categoryId === '1' || categoryId === 1) categoryId = null;
+    let url = '/api/products';
+    if (categoryId) {
+        url = `/api/products?category=${categoryId}`;
+    }
+    fetch(url)
         .then(response => response.json())
         .then(products => {
             const productContainer = document.getElementById('product-container');
