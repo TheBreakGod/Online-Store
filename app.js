@@ -251,6 +251,13 @@ app.post('/api/register', async (req, res) => {
             });
         }
 
+        if (!/^[a-zA-Z0-9]+$/.test(password)) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'รหัสผ่านต้องใช้ภาษาอังกฤษและตัวเลขเท่านั้น' 
+            });
+        }
+
         // ตรวจสอบ username ซ้ำ
         const existingUsername = await User.findOne({ username });
         if (existingUsername) {

@@ -19,6 +19,18 @@ resetForm.addEventListener('submit', async (e) => {
         return;
     }
 
+    // ตรวจสอบว่ารหัสผ่านเป็นภาษาอังกฤษและตัวเลขเท่านั้น
+    if (!/^[a-zA-Z0-9]+$/.test(newPassword)) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'รหัสผ่านต้องใช้ภาษาอังกฤษ (a-z, A-Z) และตัวเลข (0-9) เท่านั้น!',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#007BFF',
+        });
+        return;
+    }
+
     // ตรวจสอบว่ารหัสผ่านตรงกันหรือไม่
     if (newPassword !== confirmPassword) {
         Swal.fire({

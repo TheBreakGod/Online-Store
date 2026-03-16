@@ -19,7 +19,17 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
         return;
     }
 
-    // ตรวจสอบรหัสผ่านที่ยืนยัน
+    // ตรวจสอบว่ารหัสผ่านเป็นภาษาอังกฤษและตัวเลขเท่านั้น
+    if (!/^[a-zA-Z0-9]+$/.test(password)) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'รหัสผ่านต้องใช้ภาษาอังกฤษ (a-z, A-Z) และตัวเลข (0-9) เท่านั้น!',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#007BFF',
+        });
+        return;
+    }
     if (password !== confirmPassword) {
         Swal.fire({
             title: 'Error!',
