@@ -98,6 +98,9 @@ function setupEventListeners() {
     document.getElementById('searchProductBtn').addEventListener('click', loadProducts);
     document.getElementById('categoryFilter').addEventListener('change', loadProducts);
 
+    // Order search
+    document.getElementById('orderSearch').addEventListener('input', debounce(() => { filterAndRenderOrders(); }, 500));
+
     // Add product button
     document.getElementById('addProductBtn').addEventListener('click', openProductModal);
 
@@ -469,9 +472,12 @@ async function deleteProduct(productId) {
 }
 
 // ===================== ORDERS =====================
+// Global storage for orders data
+let allGroupedOrders = {};
+let orderPages = {};
+
 async function loadOrders() {
     try {
-        // Load all orders without pagination to group by status
         const url = new URL('/api/admin/orders', window.location.origin);
         url.searchParams.append('page', 1);
         url.searchParams.append('limit', 100);
@@ -480,8 +486,7 @@ async function loadOrders() {
         const response = await res.json();
         const orders = response.data || [];
 
-        // Group orders by status
-        const groupedOrders = {
+        allGroupedOrders = {
             pending: [],
             processing: [],
             shipped: [],
@@ -491,33 +496,60 @@ async function loadOrders() {
         };
 
         orders.forEach(order => {
-            if (groupedOrders[order.status]) {
-                groupedOrders[order.status].push(order);
+            if (allGroupedOrders[order.status]) {
+                allGroupedOrders[order.status].push(order);
             }
         });
 
-        // Render each status group
-        renderOrdersByStatus('newOrders', groupedOrders.pending);
-        renderOrdersByStatus('processingOrders', groupedOrders.processing);
-        renderOrdersByStatus('inTransitOrders', groupedOrders.shipped);
-        renderOrdersByStatus('deliveredOrders', groupedOrders.delivered);
-        renderOrdersByStatus('cancelRequestedOrders', groupedOrders.cancel_requested);
+        // Reset pages
+        orderPages = {
+            newOrders: 1,
+            processingOrders: 1,
+            inTransitOrders: 1,
+            deliveredOrders: 1,
+            cancelRequestedOrders: 1
+        };
+
+        filterAndRenderOrders();
 
     } catch (error) {
         console.error('Error loading orders:', error);
     }
 }
 
+function filterAndRenderOrders() {
+    const searchTerm = (document.getElementById('orderSearch')?.value || '').trim().toLowerCase();
+
+    const filterOrders = (orders) => {
+        if (!searchTerm) return orders;
+        return orders.filter(order => {
+            const orderId = order._id?.slice(-5)?.toLowerCase() || '';
+            const customer = order.user_id?.name?.toLowerCase() || '';
+            const products = order.items?.map(i => i.product_name).join(', ')?.toLowerCase() || order.product_name?.toLowerCase() || '';
+            return orderId.includes(searchTerm) || customer.includes(searchTerm) || products.includes(searchTerm);
+        });
+    };
+
+    renderOrdersByStatus('newOrders', filterOrders(allGroupedOrders.pending || []));
+    renderOrdersByStatus('processingOrders', filterOrders(allGroupedOrders.processing || []));
+    renderOrdersByStatus('inTransitOrders', filterOrders(allGroupedOrders.shipped || []));
+    renderOrdersByStatus('deliveredOrders', filterOrders(allGroupedOrders.delivered || []));
+    renderOrdersByStatus('cancelRequestedOrders', filterOrders(allGroupedOrders.cancel_requested || []));
+}
+
+const ORDERS_PER_PAGE = 5;
+
 function renderOrdersByStatus(bodyId, orders) {
     const tbody = document.getElementById(bodyId + 'Body');
     const countBadge = document.getElementById(bodyId + 'Count');
 
-    // Update count badge
-    if (countBadge) {
-        countBadge.textContent = orders.length;
-    }
-
+    if (countBadge) countBadge.textContent = orders.length;
     if (!tbody) return;
+
+    const currentPage = orderPages[bodyId] || 1;
+    const totalPages = Math.ceil(orders.length / ORDERS_PER_PAGE) || 1;
+    const start = (currentPage - 1) * ORDERS_PER_PAGE;
+    const pageOrders = orders.slice(start, start + ORDERS_PER_PAGE);
 
     tbody.innerHTML = '';
 
@@ -526,7 +558,7 @@ function renderOrdersByStatus(bodyId, orders) {
         return;
     }
 
-    orders.forEach(order => {
+    pageOrders.forEach(order => {
         const row = document.createElement('tr');
         const date = new Date(order.created_at).toLocaleDateString('th-TH');
 
@@ -589,6 +621,34 @@ function renderOrdersByStatus(bodyId, orders) {
         `;
         tbody.appendChild(row);
     });
+
+    // Pagination
+    if (totalPages > 1) {
+        const paginationRow = document.createElement('tr');
+        let paginationHtml = '<td colspan="7" style="text-align:center; padding:10px;">';
+        
+        if (currentPage > 1) {
+            paginationHtml += `<button onclick="changeOrderPage('${bodyId}', ${currentPage - 1})" style="margin:0 3px; padding:4px 10px; border:1px solid #ddd; border-radius:4px; cursor:pointer; background:#fff;">«</button>`;
+        }
+        
+        for (let i = 1; i <= totalPages; i++) {
+            const isActive = i === currentPage;
+            paginationHtml += `<button onclick="changeOrderPage('${bodyId}', ${i})" style="margin:0 3px; padding:4px 10px; border:1px solid ${isActive ? '#4a6cf7' : '#ddd'}; border-radius:4px; cursor:pointer; background:${isActive ? '#4a6cf7' : '#fff'}; color:${isActive ? '#fff' : '#333'};">${i}</button>`;
+        }
+        
+        if (currentPage < totalPages) {
+            paginationHtml += `<button onclick="changeOrderPage('${bodyId}', ${currentPage + 1})" style="margin:0 3px; padding:4px 10px; border:1px solid #ddd; border-radius:4px; cursor:pointer; background:#fff;">»</button>`;
+        }
+        
+        paginationHtml += '</td>';
+        paginationRow.innerHTML = paginationHtml;
+        tbody.appendChild(paginationRow);
+    }
+}
+
+function changeOrderPage(bodyId, page) {
+    orderPages[bodyId] = page;
+    filterAndRenderOrders();
 }
 
 // Update order status to specific value
