@@ -104,15 +104,14 @@ const getOrderDetail = async (req, res) => {
             return res.status(404).json({ error: 'Order not found' });
         }
 
-        // ดึงข้อมูล customer info
+        // ดึงข้อมูล customer info - ใช้ข้อมูลที่ฝังในออเดอร์ก่อน
         let customerInfo = null;
-        if (order.user_id && order.user_id !== 'guest') {
+        if (order.customer_info && order.customer_info.name) {
+            customerInfo = order.customer_info;
+        } else if (order.user_id && order.user_id !== 'guest') {
             const mongoose = require('mongoose');
             if (mongoose.Types.ObjectId.isValid(order.user_id)) {
-                // ลองหาจาก UserInfo โดย user_id
                 customerInfo = await UserInfo.findOne({ user_id: order.user_id });
-                
-                // ถ้าไม่เจอจาก user_id ลองหาจาก email ของ User
                 if (!customerInfo) {
                     const user = await User.findById(order.user_id);
                     if (user && user.email) {

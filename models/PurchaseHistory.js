@@ -41,6 +41,14 @@ const purchaseHistorySchema = new mongoose.Schema({
         enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled', 'cancel_requested'],
         default: 'pending'
     },
+    customer_info: {
+        name: String,
+        email: String,
+        phone: String,
+        address: String,
+        city: String,
+        postal: String
+    },
     shipping_address: {
         type: String,
         default: null

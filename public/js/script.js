@@ -322,6 +322,31 @@ async function checkout() {
             product_price: item.price,
             quantity: item.quantity
         }));
+
+        // ดึงข้อมูลที่อยู่ลูกค้าจาก localStorage
+        let customerInfo = null;
+        const savedAddresses = localStorage.getItem('customerAddresses');
+        if (savedAddresses) {
+            const data = JSON.parse(savedAddresses);
+            if (data.addresses && data.addresses.length > 0) {
+                const primary = data.addresses.find(a => a.id === data.primaryAddressId) || data.addresses[0];
+                customerInfo = {
+                    name: primary.name,
+                    email: primary.email,
+                    phone: primary.phone,
+                    address: primary.address,
+                    city: primary.city,
+                    postal: primary.postal
+                };
+            }
+        }
+        // ถ้าไม่มีใน customerAddresses ลองดู customerData
+        if (!customerInfo) {
+            const customerData = localStorage.getItem('customerData');
+            if (customerData) {
+                customerInfo = JSON.parse(customerData);
+            }
+        }
         
         // Send single request with all items
         const response = await fetch('/api/purchase', {
@@ -331,7 +356,8 @@ async function checkout() {
                 user_id: userId,
                 items: items,
                 total_price: totalPrice,
-                status: 'pending'
+                status: 'pending',
+                customer_info: customerInfo
             })
         });
         
