@@ -584,10 +584,10 @@ app.post('/api/admin/products', upload.single('image'), handleMulterError, async
         
         const { product_name, price, category_id } = req.body;
 
-        if (!product_name || !price || !category_id) {
+        if (!product_name || !price) {
             return res.status(400).json({ 
                 success: false,
-                message: "กรุณากรอกข้อมูลให้ครบ (ชื่อสินค้า, ราคา, หมวดหมู่)" 
+                message: "กรุณากรอกข้อมูลให้ครบ (ชื่อสินค้า, ราคา)" 
             });
         }
 
@@ -604,12 +604,13 @@ app.post('/api/admin/products', upload.single('image'), handleMulterError, async
             console.log('⚠️  ไม่มีไฟล์อัปโหลด - product_image_url = null');
         }
 
-        const catId = Number(category_id);
+        const allCategories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const catId = category_id ? Number(category_id) : null;
         const newProduct = new Product({
             product_name,
             price: Number(price),
-            category_id: catId,
-            category_ids: [catId],
+            category_id: catId || 0,
+            category_ids: catId ? [catId] : allCategories,
             product_image_url
         });
 
