@@ -15,25 +15,34 @@ const getAllOrders = async (req, res) => {
             filter.status = status;
         }
 
-        // ดึงข้อมูล orders พร้อม populate user info
+        // ดึงข้อมูล orders
         const orders = await PurchaseHistory.find(filter)
-            .populate('user_id', 'username email name')
             .sort({ created_at: -1 })
             .skip(skip)
             .limit(parseInt(limit));
 
         // ดึงชื่อลูกค้าจาก UserInfo
         const userIds = [...new Set(orders.map(o => o.user_id).filter(Boolean))];
-        const userInfos = await UserInfo.find({ user_id: { $in: userIds } });
         const userInfoMap = {};
-        userInfos.forEach(info => {
-            userInfoMap[info.user_id.toString()] = info.name;
-        });
+        try {
+            const mongoose = require('mongoose');
+            const objectIds = userIds
+                .filter(id => mongoose.Types.ObjectId.isValid(id))
+                .map(id => new mongoose.Types.ObjectId(id));
+            if (objectIds.length > 0) {
+                const userInfos = await UserInfo.find({ user_id: { $in: objectIds } });
+                userInfos.forEach(info => {
+                    userInfoMap[info.user_id.toString()] = info.name;
+                });
+            }
+        } catch (e) {
+            console.error('Error fetching user info:', e);
+        }
 
         // แนบชื่อลูกค้าเข้า orders
         const ordersWithCustomer = orders.map(o => {
             const obj = o.toObject();
-            obj.customer_name = userInfoMap[obj.user_id?.toString()] || null;
+            obj.customer_name = userInfoMap[obj.user_id] || null;
             return obj;
         });
 
@@ -66,9 +75,7 @@ const getOrderDetail = async (req, res) => {
             return res.status(400).json({ error: 'Invalid order ID' });
         }
 
-        const order = await PurchaseHistory.findById(id)
-            .populate('user_id', 'username email name')
-            .populate('product_id', 'product_name price');
+        const order = await PurchaseHistory.findById(id);
 
         if (!order) {
             return res.status(404).json({ error: 'Order not found' });
@@ -77,7 +84,10 @@ const getOrderDetail = async (req, res) => {
         // ดึงข้อมูล customer info
         let customerInfo = null;
         if (order.user_id) {
-            customerInfo = await UserInfo.findOne({ user_id: order.user_id._id });
+            const mongoose = require('mongoose');
+            if (mongoose.Types.ObjectId.isValid(order.user_id)) {
+                customerInfo = await UserInfo.findOne({ user_id: order.user_id });
+            }
         }
 
         res.json({
