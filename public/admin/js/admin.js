@@ -232,7 +232,7 @@ function renderRecentOrders(orders) {
 
     tbody.innerHTML = orders.map(order => `
         <tr>
-            <td>${order._id.substring(0, 8)}...</td>
+            <td>${order._id.slice(-5)}</td>
             <td>${order.user_id?.name || 'Unknown'}</td>
             <td>฿${(order.total_price || 0).toLocaleString('th-TH')}</td>
             <td><span class="status-badge status-${order.status}">${order.status}</span></td>
@@ -564,7 +564,7 @@ function renderOrdersByStatus(bodyId, orders) {
         }
 
         row.innerHTML = `
-            <td>${order._id.substring(0, 8)}...</td>
+            <td>${order._id.slice(-5)}</td>
             <td>${order.user_id?.name || 'N/A'}</td>
             <td title="${order.items?.map(item => item.product_name).join(', ') || order.product_name || ''}">${itemsDisplay}</td>
             <td>${totalItems}</td>
@@ -611,7 +611,7 @@ function renderOrdersTable(orders) {
 
     tbody.innerHTML = orders.map(order => `
         <tr>
-            <td>${order._id.substring(0, 8)}...</td>
+            <td>${order._id.slice(-5)}</td>
             <td>${order.user_id?.name || 'Unknown'}</td>
             <td>฿${(order.total_price || 0).toLocaleString('th-TH')}</td>
             <td><span class="status-badge status-${order.status}">${order.status}</span></td>
@@ -685,7 +685,7 @@ async function viewOrderDetail(orderId) {
         const detailHTML = `
             ${addressHTML}
             <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                <p><strong>Order ID:</strong> ${order._id}</p>
+                <p><strong>Order ID:</strong> ${order._id.slice(-5)}</p>
                 <p><strong>วันที่สั่ง:</strong> ${new Date(order.created_at).toLocaleDateString('th-TH')}</p>
             </div>
             <h4>🛍️ สินค้าในออเดอร์:</h4>

@@ -70,7 +70,7 @@ function loadPurchaseHistory() {
 
                     card.innerHTML = `
                         <div class="order-header">
-                            <div class="order-id">Order: ${order._id.substring(0, 12)}...</div>
+                            <div class="order-id">Order: ${order._id.slice(-5)}</div>
                             <div class="order-status" style="background: ${statusColor};">${statusLabel}</div>
                         </div>
 
