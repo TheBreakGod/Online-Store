@@ -857,7 +857,7 @@ app.put('/api/purchase-history/:orderId/cancel-request', async (req, res) => {
 // บันทึกข้อมูลลูกค้า
 app.post('/submit', async (req, res) => {
     try {
-        const { name, email, phone, address, city, postal } = req.body;
+        const { name, email, phone, address, city, postal, userId } = req.body;
 
         if (!name || !email || !phone || !address || !city || !postal) {
             return res.status(400).json({ success: false, message: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
@@ -866,10 +866,16 @@ app.post('/submit', async (req, res) => {
         // ตรวจสอบว่า email มีในระบบหรือไม่
         const existingEmail = await UserInfo.findOne({ email });
         if (existingEmail) {
+            // อัปเดต user_id ถ้ายังไม่มี
+            if (!existingEmail.user_id && userId) {
+                existingEmail.user_id = userId;
+                await existingEmail.save();
+            }
             return res.json({ success: false, message: 'อีเมลนี้มีอยู่ในระบบแล้ว' });
         }
 
         const newUserInfo = new UserInfo({
+            user_id: userId || undefined,
             name,
             email,
             phone,

@@ -18,6 +18,10 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
 
         // แสดงข้อความใน Popup
         if (result.success) {
+            // บันทึก userId และ email ใน localStorage
+            localStorage.setItem('userId', result.user_id);
+            localStorage.setItem('userEmail', email);
+
             popupMessage.innerHTML = '<i class="fas fa-check-circle" style="color: #00ff80;"></i> เข้าสู่ระบบสำเร็จ !';
             popupModal.style.display = 'flex'; // แสดง Popup ที่ตำแหน่งกลางจอ
             setTimeout(() => {

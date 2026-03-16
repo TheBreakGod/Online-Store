@@ -22,18 +22,41 @@ const getAllOrders = async (req, res) => {
             .limit(parseInt(limit));
 
         // ดึงชื่อลูกค้าจาก UserInfo
-        const userIds = [...new Set(orders.map(o => o.user_id).filter(Boolean))];
+        const userIds = [...new Set(orders.map(o => o.user_id).filter(id => id && id !== 'guest'))];
         const userInfoMap = {};
         try {
             const mongoose = require('mongoose');
-            const objectIds = userIds
-                .filter(id => mongoose.Types.ObjectId.isValid(id))
-                .map(id => new mongoose.Types.ObjectId(id));
-            if (objectIds.length > 0) {
+            const validIds = userIds.filter(id => mongoose.Types.ObjectId.isValid(id));
+            
+            if (validIds.length > 0) {
+                const objectIds = validIds.map(id => new mongoose.Types.ObjectId(id));
+                // ลองหาจาก UserInfo.user_id ก่อน
                 const userInfos = await UserInfo.find({ user_id: { $in: objectIds } });
                 userInfos.forEach(info => {
                     userInfoMap[info.user_id.toString()] = info.name;
                 });
+                
+                // สำหรับ user_id ที่ไม่เจอใน UserInfo ลองหาผ่าน User.email → UserInfo.email
+                const missingIds = validIds.filter(id => !userInfoMap[id]);
+                if (missingIds.length > 0) {
+                    const users = await User.find({ _id: { $in: missingIds.map(id => new mongoose.Types.ObjectId(id)) } });
+                    const emailMap = {};
+                    users.forEach(u => { emailMap[u._id.toString()] = u.email; });
+                    
+                    const emails = Object.values(emailMap).filter(Boolean);
+                    if (emails.length > 0) {
+                        const infosByEmail = await UserInfo.find({ email: { $in: emails } });
+                        const emailToName = {};
+                        infosByEmail.forEach(info => { emailToName[info.email] = info.name; });
+                        
+                        missingIds.forEach(id => {
+                            const email = emailMap[id];
+                            if (email && emailToName[email]) {
+                                userInfoMap[id] = emailToName[email];
+                            }
+                        });
+                    }
+                }
             }
         } catch (e) {
             console.error('Error fetching user info:', e);
@@ -83,10 +106,19 @@ const getOrderDetail = async (req, res) => {
 
         // ดึงข้อมูล customer info
         let customerInfo = null;
-        if (order.user_id) {
+        if (order.user_id && order.user_id !== 'guest') {
             const mongoose = require('mongoose');
             if (mongoose.Types.ObjectId.isValid(order.user_id)) {
+                // ลองหาจาก UserInfo โดย user_id
                 customerInfo = await UserInfo.findOne({ user_id: order.user_id });
+                
+                // ถ้าไม่เจอจาก user_id ลองหาจาก email ของ User
+                if (!customerInfo) {
+                    const user = await User.findById(order.user_id);
+                    if (user && user.email) {
+                        customerInfo = await UserInfo.findOne({ email: user.email });
+                    }
+                }
             }
         }
 

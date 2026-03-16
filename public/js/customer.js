@@ -22,7 +22,8 @@ window.onload = function () {
                 phone: phone,
                 address: address,
                 city: city,
-                postal: postal
+                postal: postal,
+                userId: localStorage.getItem('userId') || null
             };
 
             // บันทึกข้อมูลใน localStorage ทันที
