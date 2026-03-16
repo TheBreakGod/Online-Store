@@ -141,7 +141,7 @@ function handleImageUpload(e) {
 
     // ตรวจสอบประเภทไฟล์
     if (!file.type.startsWith('image/')) {
-        alert('Please select an image file');
+        alert('กรุณาเลือกไฟล์รูปภาพ');
         return;
     }
 
@@ -181,10 +181,10 @@ function switchPage(pageName) {
 
     // Update header title
     const titles = {
-        dashboard: 'Dashboard',
-        products: 'Products Management',
-        orders: 'Orders Management',
-        orders: 'Orders Management'
+        dashboard: 'แดชบอร์ด',
+        products: 'จัดการสินค้า',
+        orders: 'จัดการคำสั่งซื้อ',
+        orders: 'จัดการคำสั่งซื้อ'
     };
     document.getElementById('pageTitle').textContent = titles[pageName];
 
@@ -242,7 +242,7 @@ async function loadDashboard() {
 function renderRecentOrders(orders) {
     const tbody = document.getElementById('recentOrdersTable');
     if (orders.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="text-center">No orders yet</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center">ยังไม่มีคำสั่งซื้อ</td></tr>';
         return;
     }
 
@@ -265,7 +265,7 @@ function renderTopProducts(products) {
     };
     const tbody = document.getElementById('topProductsTable');
     if (products.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center">No products yet</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center">ยังไม่มีสินค้า</td></tr>';
         return;
     }
 
@@ -275,7 +275,7 @@ function renderTopProducts(products) {
             <td>฿${product.price.toLocaleString('th-TH')}</td>
             <td>${categoryNames[product.category_id] || 'หมวด ' + product.category_id}</td>
             <td><span class="status-badge status-${product.isActive ? 'active' : 'inactive'}">
-                ${product.isActive ? 'Active' : 'Inactive'}
+                ${product.isActive ? 'ใช้งาน' : 'ไม่ใช้งาน'}
             </span></td>
         </tr>
     `).join('');
@@ -312,7 +312,7 @@ function renderProductsTable(products) {
     };
     const tbody = document.getElementById('productsTable');
     if (products.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="text-center">No products found</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center">ไม่พบสินค้า</td></tr>';
         return;
     }
 
@@ -322,12 +322,12 @@ function renderProductsTable(products) {
             <td>฿${product.price.toLocaleString('th-TH')}</td>
             <td>${categoryNames[product.category_id] || 'หมวด ' + product.category_id}</td>
             <td><span class="status-badge status-${product.isActive ? 'active' : 'inactive'}">
-                ${product.isActive ? 'Active' : 'Inactive'}
+                ${product.isActive ? 'ใช้งาน' : 'ไม่ใช้งาน'}
             </span></td>
             <td>
-                <button class="btn btn-small" onclick="editProduct('${product._id}')">Edit</button>
+                <button class="btn btn-small" onclick="editProduct('${product._id}')">แก้ไข</button>
                 <button class="btn btn-small btn-danger" onclick="deleteProduct('${product._id}')">
-                    ${product.isActive ? 'Delete' : 'Restore'}
+                    ${product.isActive ? 'ลบ' : 'กู้คืน'}
                 </button>
             </td>
         </tr>
@@ -339,7 +339,7 @@ function openProductModal() {
     document.getElementById('productForm').reset();
     document.getElementById('product_image_file').dataset.base64 = '';
     document.getElementById('imagePreview').style.display = 'none';
-    document.getElementById('modalTitle').textContent = 'Add Product';
+    document.getElementById('modalTitle').textContent = 'เพิ่มสินค้า';
     document.getElementById('productModal').classList.add('show');
 }
 
@@ -366,10 +366,10 @@ async function editProduct(productId) {
             }
         }
         
-        document.getElementById('modalTitle').textContent = 'Edit Product';
+        document.getElementById('modalTitle').textContent = 'แก้ไขสินค้า';
         document.getElementById('productModal').classList.add('show');
     } catch (error) {
-        alert('Error loading product: ' + error.message);
+        alert('เกิดข้อผิดพลาดในการโหลดสินค้า: ' + error.message);
     }
 }
 
@@ -386,7 +386,7 @@ async function saveProduct(e) {
     // ✅ Check all elements exist
     if (!productIdEl || !nameEl || !priceEl || !categoryEl) {
         console.error('❌ Form elements not found');
-        alert('Form error: Missing form elements');
+        alert('ฟอร์มผิดพลาด: ไม่พบองค์ประกอบฟอร์ม');
         return;
     }
 
@@ -399,7 +399,7 @@ async function saveProduct(e) {
 
     try {
         if (!name || !price || !category) {
-            alert('Please fill in all required fields (Name, Price, Category)');
+            alert('กรุณากรอกข้อมูลให้ครบ (ชื่อสินค้า, ราคา, หมวดหมู่)');
             return;
         }
 
@@ -426,7 +426,7 @@ async function saveProduct(e) {
 
             if (!res.ok) {
                 const data = await res.json();
-                throw new Error(data.message || 'Failed to save product');
+                throw new Error(data.message || 'ไม่สามารถบันทึกสินค้าได้');
             }
         } else {
             // If no file, send JSON
@@ -440,18 +440,18 @@ async function saveProduct(e) {
                 })
             });
 
-            if (!res.ok) throw new Error('Failed to save product');
+            if (!res.ok) throw new Error('ไม่สามารถบันทึกสินค้าได้');
         }
 
         document.getElementById('productModal').classList.remove('show');
         loadProducts();
     } catch (error) {
-        alert('Error: ' + error.message);
+        alert('เกิดข้อผิดพลาด: ' + error.message);
     }
 }
 
 async function deleteProduct(productId) {
-    if (!confirm('Are you sure you want to delete this product?')) return;
+    if (!confirm('คุณต้องการลบสินค้านี้หรือไม่?')) return;
 
     try {
         const res = await fetchWithAuth(`/api/admin/products/${productId}`, { 
@@ -461,13 +461,13 @@ async function deleteProduct(productId) {
         const data = await res.json();
         
         if (!res.ok) {
-            throw new Error(data.error || 'Failed to delete product');
+            throw new Error(data.error || 'ไม่สามารถลบสินค้าได้');
         }
 
         loadProducts();
-        alert('Product deleted successfully!');
+        alert('ลบสินค้าสำเร็จ!');
     } catch (error) {
-        alert('Error: ' + error.message);
+        alert('เกิดข้อผิดพลาด: ' + error.message);
     }
 }
 
@@ -558,7 +558,7 @@ function renderOrdersByStatus(bodyId, orders) {
     tbody.innerHTML = '';
 
     if (orders.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center">No orders</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center">ไม่มีคำสั่งซื้อ</td></tr>`;
         return;
     }
 
@@ -567,7 +567,7 @@ function renderOrdersByStatus(bodyId, orders) {
         const date = new Date(order.created_at).toLocaleDateString('th-TH');
 
         // Display items
-        let itemsDisplay = 'N/A';
+        let itemsDisplay = 'ไม่มีข้อมูล';
         let totalItems = 0;
 
         if (order.items && Array.isArray(order.items) && order.items.length > 0) {
@@ -614,7 +614,7 @@ function renderOrdersByStatus(bodyId, orders) {
 
         row.innerHTML = `
             <td>${order._id.slice(-5)}</td>
-            <td>${order.user_id?.name || 'N/A'}</td>
+            <td>${order.user_id?.name || 'ไม่ทราบ'}</td>
             <td title="${order.items?.map(item => item.product_name).join(', ') || order.product_name || ''}">${itemsDisplay}</td>
             <td>${totalItems}</td>
             <td>฿${order.total_price.toLocaleString('th-TH')}</td>
@@ -675,7 +675,7 @@ async function updateOrderStatusTo(orderId, newStatus) {
         loadOrders();
     } catch (error) {
         console.error('Error updating order:', error);
-        alert('Failed to update order status');
+        alert('ไม่สามารถอัปเดตสถานะคำสั่งซื้อได้');
     }
 }
 

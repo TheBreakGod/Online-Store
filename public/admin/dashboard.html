@@ -1,51 +1,51 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Online Store</title>
+    <title>เนเธเธเธเธงเธเธเธธเธกเนเธญเธ”เธกเธดเธ - เธฃเนเธฒเธเธเนเธฒเธญเธญเธเนเธฅเธเน</title>
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
     <div class="admin-container">
         <!-- Mobile Header -->
         <div class="mobile-header">
-            <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-            <h1>Online Store</h1>
+            <button class="menu-toggle" onclick="toggleSidebar()">โฐ</button>
+            <h1>เธฃเนเธฒเธเธเนเธฒเธญเธญเธเนเธฅเธเน</h1>
         </div>
         <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
         <!-- Sidebar Navigation -->
         <aside class="sidebar" id="sidebar">
             <div class="logo">
-                <h2>Online Store</h2>
-                <p>Admin Panel</p>
-                <span class="close-sidebar" onclick="toggleSidebar()">✕</span>
+                <h2>เธฃเนเธฒเธเธเนเธฒเธญเธญเธเนเธฅเธเน</h2>
+                <p>เนเธเธเธเธงเธเธเธธเธกเนเธญเธ”เธกเธดเธ</p>
+                <span class="close-sidebar" onclick="toggleSidebar()">โ•</span>
             </div>
 
             <nav class="menu">
                 <a href="#dashboard" class="menu-item active" data-page="dashboard">
-                    <span class="icon">📊</span>
-                    <span>Dashboard</span>
+                    <span class="icon">๐“</span>
+                    <span>เนเธ”เธเธเธญเธฃเนเธ”</span>
                 </a>
                 <a href="#products" class="menu-item" data-page="products">
-                    <span class="icon">📦</span>
-                    <span>Products</span>
+                    <span class="icon">๐“ฆ</span>
+                    <span>เธชเธดเธเธเนเธฒ</span>
                 </a>
                 <a href="#orders" class="menu-item" data-page="orders">
-                    <span class="icon">📋</span>
-                    <span>Orders</span>
+                    <span class="icon">๐“</span>
+                    <span>เธเธณเธชเธฑเนเธเธเธทเนเธญ</span>
                 </a>
             </nav>
 
             <div class="admin-user">
                 <div class="user-info">
-                    <div class="user-avatar">👤</div>
+                    <div class="user-avatar">๐‘ค</div>
                     <div>
                         <p id="adminName">Admin</p>
                         <small id="adminEmail">admin@easyshop.com</small>
                     </div>
                 </div>
-                <button id="logoutBtn" class="logout-btn">Logout</button>
+                <button id="logoutBtn" class="logout-btn">เธญเธญเธเธเธฒเธเธฃเธฐเธเธ</button>
             </div>
         </aside>
 
@@ -54,10 +54,10 @@
             <!-- Header -->
             <header class="admin-header">
                 <div class="header-left">
-                    <h1 id="pageTitle">Dashboard</h1>
+                    <h1 id="pageTitle">เนเธ”เธเธเธญเธฃเนเธ”</h1>
                 </div>
                 <div class="header-right">
-                    <button id="refreshBtn" class="refresh-btn">🔄 Refresh</button>
+                    <button id="refreshBtn" class="refresh-btn">๐” เธฃเธตเน€เธเธฃเธ</button>
                 </div>
             </header>
 
@@ -67,26 +67,26 @@
                 <div id="dashboard-page" class="page-content active">
                     <div class="stats-grid">
                         <div class="stat-card">
-                            <div class="stat-icon">📦</div>
+                            <div class="stat-icon">๐“ฆ</div>
                             <div class="stat-info">
-                                <p class="stat-label">Total Products</p>
+                                <p class="stat-label">เธชเธดเธเธเนเธฒเธ—เธฑเนเธเธซเธกเธ”</p>
                                 <h3 class="stat-value" id="totalProducts">0</h3>
                             </div>
                         </div>
 
                         <div class="stat-card">
-                            <div class="stat-icon">📋</div>
+                            <div class="stat-icon">๐“</div>
                             <div class="stat-info">
-                                <p class="stat-label">Total Orders</p>
+                                <p class="stat-label">เธเธณเธชเธฑเนเธเธเธทเนเธญเธ—เธฑเนเธเธซเธกเธ”</p>
                                 <h3 class="stat-value" id="totalOrders">0</h3>
                             </div>
                         </div>
 
                         <div class="stat-card">
-                            <div class="stat-icon">💰</div>
+                            <div class="stat-icon">๐’ฐ</div>
                             <div class="stat-info">
-                                <p class="stat-label">Total Revenue</p>
-                                <h3 class="stat-value" id="totalRevenue">฿0</h3>
+                                <p class="stat-label">เธฃเธฒเธขเนเธ”เนเธ—เธฑเนเธเธซเธกเธ”</p>
+                                <h3 class="stat-value" id="totalRevenue">เธฟ0</h3>
                             </div>
                         </div>
                     </div>
@@ -94,20 +94,20 @@
                     <div class="dashboard-grid">
                         <!-- Recent Orders -->
                         <div class="dashboard-card">
-                            <h3>Recent Orders</h3>
+                            <h3>เธเธณเธชเธฑเนเธเธเธทเนเธญเธฅเนเธฒเธชเธธเธ”</h3>
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Order ID</th>
-                                        <th>Customer</th>
-                                        <th>Amount</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
+                                        <th>เธฃเธซเธฑเธชเธเธณเธชเธฑเนเธเธเธทเนเธญ</th>
+                                        <th>เธฅเธนเธเธเนเธฒ</th>
+                                        <th>เธขเธญเธ”เน€เธเธดเธ</th>
+                                        <th>เธชเธ–เธฒเธเธฐ</th>
+                                        <th>เธงเธฑเธเธ—เธตเน</th>
                                     </tr>
                                 </thead>
                                 <tbody id="recentOrdersTable">
                                     <tr>
-                                        <td colspan="5" class="text-center">Loading...</td>
+                                        <td colspan="5" class="text-center">เธเธณเธฅเธฑเธเนเธซเธฅเธ”...</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -115,19 +115,19 @@
 
                         <!-- Top Products -->
                         <div class="dashboard-card">
-                            <h3>Top Products</h3>
+                            <h3>เธชเธดเธเธเนเธฒเธขเธญเธ”เธเธดเธขเธก</h3>
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Product Name</th>
-                                        <th>Price</th>
-                                        <th>Category</th>
-                                        <th>Status</th>
+                                        <th>เธเธทเนเธญเธชเธดเธเธเนเธฒ</th>
+                                        <th>เธฃเธฒเธเธฒ</th>
+                                        <th>เธซเธกเธงเธ”เธซเธกเธนเน</th>
+                                        <th>เธชเธ–เธฒเธเธฐ</th>
                                     </tr>
                                 </thead>
                                 <tbody id="topProductsTable">
                                     <tr>
-                                        <td colspan="4" class="text-center">Loading...</td>
+                                        <td colspan="4" class="text-center">เธเธณเธฅเธฑเธเนเธซเธฅเธ”...</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -142,39 +142,39 @@
                             <input 
                                 type="text" 
                                 id="productSearch" 
-                                placeholder="ค้นหาชื่อสินค้า..."
+                                placeholder="เธเนเธเธซเธฒเธเธทเนเธญเธชเธดเธเธเนเธฒ..."
                                 class="search-input"
                             >
-                            <button id="searchProductBtn" class="btn btn-primary" style="margin-left: 8px;">🔍 ค้นหา</button>
+                            <button id="searchProductBtn" class="btn btn-primary" style="margin-left: 8px;">๐” เธเนเธเธซเธฒ</button>
                             <select id="categoryFilter" class="filter-select">
-                                <option value="">หมวดหมู่ทั้งหมด</option>
-                                <option value="2">หนังสือ นิตยสาร เครื่องเขียน</option>
-                                <option value="3">แม่และเด็ก</option>
-                                <option value="4">สุขภาพ ออกกำลังกาย</option>
-                                <option value="5">เครื่องใช้ไฟฟ้า</option>
-                                <option value="6">บ้านและสวน</option>
-                                <option value="7">ความงาม</option>
-                                <option value="8">แฟชั่น</option>
-                                <option value="9">มือถือ แกดเจ็ต</option>
-                                <option value="10">สัตว์เลี้ยง</option>
+                                <option value="">เธซเธกเธงเธ”เธซเธกเธนเนเธ—เธฑเนเธเธซเธกเธ”</option>
+                                <option value="2">เธซเธเธฑเธเธชเธทเธญ เธเธดเธ•เธขเธชเธฒเธฃ เน€เธเธฃเธทเนเธญเธเน€เธเธตเธขเธ</option>
+                                <option value="3">เนเธกเนเนเธฅเธฐเน€เธ”เนเธ</option>
+                                <option value="4">เธชเธธเธเธ เธฒเธ เธญเธญเธเธเธณเธฅเธฑเธเธเธฒเธข</option>
+                                <option value="5">เน€เธเธฃเธทเนเธญเธเนเธเนเนเธเธเนเธฒ</option>
+                                <option value="6">เธเนเธฒเธเนเธฅเธฐเธชเธงเธ</option>
+                                <option value="7">เธเธงเธฒเธกเธเธฒเธก</option>
+                                <option value="8">เนเธเธเธฑเนเธ</option>
+                                <option value="9">เธกเธทเธญเธ–เธทเธญ เนเธเธ”เน€เธเนเธ•</option>
+                                <option value="10">เธชเธฑเธ•เธงเนเน€เธฅเธตเนเธขเธ</option>
                             </select>
                         </div>
-                        <button id="addProductBtn" class="btn btn-primary">+ Add Product</button>
+                        <button id="addProductBtn" class="btn btn-primary">+ เน€เธเธดเนเธกเธชเธดเธเธเนเธฒ</button>
                     </div>
 
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Product Name</th>
-                                <th>Price</th>
-                                <th>Category</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th>เธเธทเนเธญเธชเธดเธเธเนเธฒ</th>
+                                <th>เธฃเธฒเธเธฒ</th>
+                                <th>เธซเธกเธงเธ”เธซเธกเธนเน</th>
+                                <th>เธชเธ–เธฒเธเธฐ</th>
+                                <th>เธเธฑเธ”เธเธฒเธฃ</th>
                             </tr>
                         </thead>
                         <tbody id="productsTable">
                             <tr>
-                                <td colspan="5" class="text-center">Loading...</td>
+                                <td colspan="5" class="text-center">เธเธณเธฅเธฑเธเนเธซเธฅเธ”...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -186,27 +186,27 @@
                 <div id="orders-page" class="page-content">
                     <!-- Search Box -->
                     <div style="margin-bottom: 15px;">
-                        <input type="text" id="orderSearch" placeholder="🔍 ค้นหา Order ID, ชื่อลูกค้า, สินค้า..." style="width: 100%; padding: 10px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+                        <input type="text" id="orderSearch" placeholder="๐” เธเนเธเธซเธฒ Order ID, เธเธทเนเธญเธฅเธนเธเธเนเธฒ, เธชเธดเธเธเนเธฒ..." style="width: 100%; padding: 10px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
                     </div>
                     <!-- New Orders Section -->
                     <div class="order-section">
                         <div class="section-header">
-                            <h3>📋 New Orders <span class="count-badge" id="newOrdersCount">0</span></h3>
+                            <h3>๐“ เธเธณเธชเธฑเนเธเธเธทเนเธญเนเธซเธกเน <span class="count-badge" id="newOrdersCount">0</span></h3>
                         </div>
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Order ID</th>
-                                    <th>Customer</th>
-                                    <th>Products</th>
-                                    <th>Items</th>
-                                    <th>Amount</th>
-                                    <th>Date</th>
-                                    <th>Actions</th>
+                                    <th>รหัสคำสั่งซื้อ</th>
+                                    <th>ลูกค้า</th>
+                                    <th>สินค้า</th>
+                                    <th>จำนวน</th>
+                                    <th>ยอดเงิน</th>
+                                    <th>วันที่</th>
+                                    <th>จัดการ</th>
                                 </tr>
                             </thead>
                             <tbody id="newOrdersBody">
-                                <tr><td colspan="7" class="text-center">No new orders</td></tr>
+                                <tr><td colspan="7" class="text-center">เนเธกเนเธกเธตเธเธณเธชเธฑเนเธเธเธทเนเธญเนเธซเธกเน</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -214,22 +214,22 @@
                     <!-- Processing Orders Section -->
                     <div class="order-section">
                         <div class="section-header">
-                            <h3>⚙️ Processing Orders <span class="count-badge" id="processingOrdersCount">0</span></h3>
+                            <h3>โ๏ธ เธเธณเธฅเธฑเธเธ”เธณเน€เธเธดเธเธเธฒเธฃ <span class="count-badge" id="processingOrdersCount">0</span></h3>
                         </div>
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Order ID</th>
-                                    <th>Customer</th>
-                                    <th>Products</th>
-                                    <th>Items</th>
-                                    <th>Amount</th>
-                                    <th>Date</th>
-                                    <th>Actions</th>
+                                    <th>รหัสคำสั่งซื้อ</th>
+                                    <th>ลูกค้า</th>
+                                    <th>สินค้า</th>
+                                    <th>จำนวน</th>
+                                    <th>ยอดเงิน</th>
+                                    <th>วันที่</th>
+                                    <th>จัดการ</th>
                                 </tr>
                             </thead>
                             <tbody id="processingOrdersBody">
-                                <tr><td colspan="7" class="text-center">No processing orders</td></tr>
+                                <tr><td colspan="7" class="text-center">เนเธกเนเธกเธตเธเธณเธชเธฑเนเธเธเธทเนเธญเธ—เธตเนเธเธณเธฅเธฑเธเธ”เธณเน€เธเธดเธเธเธฒเธฃ</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -237,22 +237,22 @@
                     <!-- In Transit Section -->
                     <div class="order-section">
                         <div class="section-header">
-                            <h3>🚚 In Transit <span class="count-badge" id="inTransitOrdersCount">0</span></h3>
+                            <h3>๐ เธเธณเธฅเธฑเธเธเธฑเธ”เธชเนเธ <span class="count-badge" id="inTransitOrdersCount">0</span></h3>
                         </div>
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Order ID</th>
-                                    <th>Customer</th>
-                                    <th>Products</th>
-                                    <th>Items</th>
-                                    <th>Amount</th>
-                                    <th>Date</th>
-                                    <th>Actions</th>
+                                    <th>รหัสคำสั่งซื้อ</th>
+                                    <th>ลูกค้า</th>
+                                    <th>สินค้า</th>
+                                    <th>จำนวน</th>
+                                    <th>ยอดเงิน</th>
+                                    <th>วันที่</th>
+                                    <th>จัดการ</th>
                                 </tr>
                             </thead>
                             <tbody id="inTransitOrdersBody">
-                                <tr><td colspan="7" class="text-center">No in transit orders</td></tr>
+                                <tr><td colspan="7" class="text-center">เนเธกเนเธกเธตเธเธณเธชเธฑเนเธเธเธทเนเธญเธ—เธตเนเธเธณเธฅเธฑเธเธเธฑเธ”เธชเนเธ</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -260,22 +260,22 @@
                     <!-- Delivered Orders Section -->
                     <div class="order-section">
                         <div class="section-header">
-                            <h3>✅ Delivered <span class="count-badge" id="deliveredOrdersCount">0</span></h3>
+                            <h3>โ… เธเธฑเธ”เธชเนเธเนเธฅเนเธง <span class="count-badge" id="deliveredOrdersCount">0</span></h3>
                         </div>
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Order ID</th>
-                                    <th>Customer</th>
-                                    <th>Products</th>
-                                    <th>Items</th>
-                                    <th>Amount</th>
-                                    <th>Date</th>
-                                    <th>Actions</th>
+                                    <th>รหัสคำสั่งซื้อ</th>
+                                    <th>ลูกค้า</th>
+                                    <th>สินค้า</th>
+                                    <th>จำนวน</th>
+                                    <th>ยอดเงิน</th>
+                                    <th>วันที่</th>
+                                    <th>จัดการ</th>
                                 </tr>
                             </thead>
                             <tbody id="deliveredOrdersBody">
-                                <tr><td colspan="7" class="text-center">No delivered orders</td></tr>
+                                <tr><td colspan="7" class="text-center">เนเธกเนเธกเธตเธเธณเธชเธฑเนเธเธเธทเนเธญเธ—เธตเนเธเธฑเธ”เธชเนเธเนเธฅเนเธง</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -283,22 +283,22 @@
                     <!-- Cancel Requested Orders -->
                     <div class="order-section" style="border-left: 4px solid #ff5722;">
                         <div class="section-header">
-                            <h3>🚫 ขอยกเลิก <span class="count-badge" style="background:#ff5722;" id="cancelRequestedOrdersCount">0</span></h3>
+                            <h3>๐ซ เธเธญเธขเธเน€เธฅเธดเธ <span class="count-badge" style="background:#ff5722;" id="cancelRequestedOrdersCount">0</span></h3>
                         </div>
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Order ID</th>
-                                    <th>Customer</th>
-                                    <th>Products</th>
-                                    <th>Items</th>
-                                    <th>Amount</th>
-                                    <th>Date</th>
-                                    <th>Actions</th>
+                                    <th>รหัสคำสั่งซื้อ</th>
+                                    <th>ลูกค้า</th>
+                                    <th>สินค้า</th>
+                                    <th>จำนวน</th>
+                                    <th>ยอดเงิน</th>
+                                    <th>วันที่</th>
+                                    <th>จัดการ</th>
                                 </tr>
                             </thead>
                             <tbody id="cancelRequestedOrdersBody">
-                                <tr><td colspan="7" class="text-center">No cancel requests</td></tr>
+                                <tr><td colspan="7" class="text-center">เนเธกเนเธกเธตเธเธณเธเธญเธขเธเน€เธฅเธดเธ</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -311,41 +311,41 @@
     <div id="productModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2 id="modalTitle">Add Product</h2>
+            <h2 id="modalTitle">เน€เธเธดเนเธกเธชเธดเธเธเนเธฒ</h2>
             <form id="productForm">
                 <input type="hidden" id="productId">
                 <div class="form-group">
-                    <label>Product Name</label>
+                    <label>เธเธทเนเธญเธชเธดเธเธเนเธฒ</label>
                     <input type="text" id="productName" required>
                 </div>
                 <div class="form-group">
-                    <label>Price</label>
+                    <label>เธฃเธฒเธเธฒ</label>
                     <input type="number" id="productPrice" step="0.01" required>
                 </div>
                 <div class="form-group">
-                    <label>Category</label>
+                    <label>เธซเธกเธงเธ”เธซเธกเธนเน</label>
                     <select id="productCategory" required>
-                        <option value="1">ซูเปอร์มาร์เก็ต</option>
-                        <option value="2">หนังสือ นิตยสาร เครื่องเขียน</option>
-                        <option value="3">แม่และเด็ก</option>
-                        <option value="4">สุขภาพ ออกกำลังกาย</option>
-                        <option value="5">เครื่องใช้ไฟฟ้า</option>
-                        <option value="6">บ้านและสวน</option>
-                        <option value="7">ความงาม</option>
-                        <option value="8">แฟชั่น</option>
-                        <option value="9">มือถือ แกดเจ็ต</option>
-                        <option value="10">สัตว์เลี้ยง</option>
+                        <option value="1">เธเธนเน€เธเธญเธฃเนเธกเธฒเธฃเนเน€เธเนเธ•</option>
+                        <option value="2">เธซเธเธฑเธเธชเธทเธญ เธเธดเธ•เธขเธชเธฒเธฃ เน€เธเธฃเธทเนเธญเธเน€เธเธตเธขเธ</option>
+                        <option value="3">เนเธกเนเนเธฅเธฐเน€เธ”เนเธ</option>
+                        <option value="4">เธชเธธเธเธ เธฒเธ เธญเธญเธเธเธณเธฅเธฑเธเธเธฒเธข</option>
+                        <option value="5">เน€เธเธฃเธทเนเธญเธเนเธเนเนเธเธเนเธฒ</option>
+                        <option value="6">เธเนเธฒเธเนเธฅเธฐเธชเธงเธ</option>
+                        <option value="7">เธเธงเธฒเธกเธเธฒเธก</option>
+                        <option value="8">เนเธเธเธฑเนเธ</option>
+                        <option value="9">เธกเธทเธญเธ–เธทเธญ เนเธเธ”เน€เธเนเธ•</option>
+                        <option value="10">เธชเธฑเธ•เธงเนเน€เธฅเธตเนเธขเธ</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Upload Image</label>
+                    <label>เธญเธฑเธเนเธซเธฅเธ”เธฃเธนเธเธ เธฒเธ</label>
                     <input type="file" id="product_image_file" accept="image/*">
                     <div id="imagePreview" class="image-preview" style="display: none; margin-top: 10px;">
                         <img id="previewImg" src="" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 5px;">
-                        <button type="button" id="removeImageBtn" class="btn btn-danger btn-small" style="margin-top: 10px;">✕ Remove Image</button>
+                        <button type="button" id="removeImageBtn" class="btn btn-danger btn-small" style="margin-top: 10px;">โ• เธฅเธเธฃเธนเธเธ เธฒเธ</button>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Save Product</button>
+                <button type="submit" class="btn btn-primary">เธเธฑเธเธ—เธถเธเธชเธดเธเธเนเธฒ</button>
             </form>
         </div>
     </div>
@@ -353,10 +353,10 @@
     <div id="orderModal" class="modal">
         <div class="modal-content" style="max-width: 700px; max-height: 80vh; overflow-y: auto;">
             <span class="close">&times;</span>
-            <h2>📋 รายละเอียดออเดอร์</h2>
-            <div id="orderDetailContent" style="padding: 15px;">Loading...</div>
+            <h2>๐“ เธฃเธฒเธขเธฅเธฐเน€เธญเธตเธขเธ”เธญเธญเน€เธ”เธญเธฃเน</h2>
+            <div id="orderDetailContent" style="padding: 15px;">กำลังโหลด...</div>
             <div style="text-align: right; padding: 10px 15px;">
-                <button class="btn btn-secondary" onclick="document.getElementById('orderModal').classList.remove('show')">ปิด</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('orderModal').classList.remove('show')">เธเธดเธ”</button>
             </div>
         </div>
     </div>
@@ -364,3 +364,4 @@
     <script src="js/admin.js"></script>
 </body>
 </html>
+
