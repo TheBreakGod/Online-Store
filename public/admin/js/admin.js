@@ -523,10 +523,14 @@ function filterAndRenderOrders() {
     const filterOrders = (orders) => {
         if (!searchTerm) return orders;
         return orders.filter(order => {
-            const orderId = order._id?.slice(-5)?.toLowerCase() || '';
-            const customer = order.user_id?.name?.toLowerCase() || '';
-            const products = order.items?.map(i => i.product_name).join(', ')?.toLowerCase() || order.product_name?.toLowerCase() || '';
-            return orderId.includes(searchTerm) || customer.includes(searchTerm) || products.includes(searchTerm);
+            const orderId = (order._id || '').toLowerCase();
+            const customer = (order.user_id?.name || order.user_id || '').toString().toLowerCase();
+            const itemNames = order.items && order.items.length > 0
+                ? order.items.map(i => i.product_name || '').join(', ')
+                : (order.product_name || '');
+            const products = itemNames.toLowerCase();
+            const amount = (order.total_price || '').toString();
+            return orderId.includes(searchTerm) || customer.includes(searchTerm) || products.includes(searchTerm) || amount.includes(searchTerm);
         });
     };
 
