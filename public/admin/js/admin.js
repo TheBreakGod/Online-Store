@@ -524,7 +524,7 @@ function filterAndRenderOrders() {
         if (!searchTerm) return orders;
         return orders.filter(order => {
             const orderId = (order._id || '').toLowerCase();
-            const customer = (order.user_id?.name || order.user_id || '').toString().toLowerCase();
+            const customer = (order.customer_name || order.user_id?.name || order.user_id || '').toString().toLowerCase();
             const itemNames = order.items && order.items.length > 0
                 ? order.items.map(i => i.product_name || '').join(', ')
                 : (order.product_name || '');
@@ -614,7 +614,7 @@ function renderOrdersByStatus(bodyId, orders) {
 
         row.innerHTML = `
             <td>${order._id.slice(-5)}</td>
-            <td>${order.user_id?.name || 'N/A'}</td>
+            <td>${order.customer_name || order.user_id?.name || 'N/A'}</td>
             <td title="${order.items?.map(item => item.product_name).join(', ') || order.product_name || ''}">${itemsDisplay}</td>
             <td>${totalItems}</td>
             <td>฿${order.total_price.toLocaleString('th-TH')}</td>

@@ -22,12 +22,27 @@ const getAllOrders = async (req, res) => {
             .skip(skip)
             .limit(parseInt(limit));
 
+        // ดึงชื่อลูกค้าจาก UserInfo
+        const userIds = [...new Set(orders.map(o => o.user_id).filter(Boolean))];
+        const userInfos = await UserInfo.find({ user_id: { $in: userIds } });
+        const userInfoMap = {};
+        userInfos.forEach(info => {
+            userInfoMap[info.user_id.toString()] = info.name;
+        });
+
+        // แนบชื่อลูกค้าเข้า orders
+        const ordersWithCustomer = orders.map(o => {
+            const obj = o.toObject();
+            obj.customer_name = userInfoMap[obj.user_id?.toString()] || null;
+            return obj;
+        });
+
         const total = await PurchaseHistory.countDocuments(filter);
 
         // ส่งข้อมูลกลับพร้อม pagination info
         res.json({
             success: true,
-            data: orders,
+            data: ordersWithCustomer,
             pagination: {
                 total,
                 page: parseInt(page),
