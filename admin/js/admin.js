@@ -469,11 +469,12 @@ async function saveProduct(e) {
         const productIdEl = document.getElementById('productId');
         const nameEl = document.getElementById('productName');
         const priceEl = document.getElementById('productPrice');
+        const categoryEl = document.getElementById('productCategory');
         const imageFileEl = document.getElementById('product_image_file');
         const imageUrlEl = document.getElementById('productImage');
 
         // ✅ ป้องกันไม่ให้ undefined/null element ทำให้ error
-        if (!productIdEl || !nameEl || !priceEl) {
+        if (!productIdEl || !nameEl || !priceEl || !categoryEl) {
             console.error('❌ Form elements not found');
             alert('Form error: Missing form elements');
             return;
@@ -482,6 +483,7 @@ async function saveProduct(e) {
         const productId = productIdEl.value;
         const name = nameEl.value.trim();
         const price = priceEl.value.trim();
+        const category = categoryEl.value;
         const imageFile = imageFileEl?.files[0];
         const imageUrl = imageUrlEl?.value?.trim() || null;
 
@@ -489,11 +491,12 @@ async function saveProduct(e) {
         console.log('productId:', productId);
         console.log('name:', name);
         console.log('price:', price);
+        console.log('category:', category);
         console.log('imageFile:', imageFile ? '✅ มีไฟล์ - ' + imageFile.name : '❌ ไม่มีไฟล์');
         console.log('imageUrl:', imageUrl);
 
-        if (!name || !price) {
-            alert('Please fill in all required fields (Name, Price)');
+        if (!name || !price || !category) {
+            alert('Please fill in all required fields (Name, Price, Category)');
             return;
         }
 
@@ -503,6 +506,7 @@ async function saveProduct(e) {
             const formData = new FormData();
             formData.append('product_name', name);
             formData.append('price', parseInt(price));
+            formData.append('category_id', parseInt(category));
             formData.append('image', imageFile);
 
             const method = productId ? 'PUT' : 'POST';
@@ -540,7 +544,8 @@ async function saveProduct(e) {
             // ให้ส่ง undefined เพื่อไม่ให้ backend เปลี่ยน existing image URL
             const bodyData = {
                 product_name: name,
-                price: parseInt(price)
+                price: parseInt(price),
+                category_id: parseInt(category)
             };
 
             // ส่ง product_image_url เฉพาะเมื่อ:
@@ -592,6 +597,7 @@ async function editProduct(productId) {
         document.getElementById('productId').value = product._id;
         document.getElementById('productName').value = product.product_name;
         document.getElementById('productPrice').value = product.price;
+        document.getElementById('productCategory').value = product.category_id;
         
         // ✅ Set current image URL in the text input (ล็อคค่า)
         document.getElementById('productImage').value = product.product_image_url || '';

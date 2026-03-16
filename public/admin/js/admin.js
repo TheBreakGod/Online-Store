@@ -349,6 +349,7 @@ async function editProduct(productId) {
         document.getElementById('productId').value = product._id;
         document.getElementById('productName').value = product.product_name;
         document.getElementById('productPrice').value = product.price;
+        document.getElementById('productCategory').value = product.category_id;
         
         // Load image if exists
         const fileInput = document.getElementById('product_image_file');
@@ -375,11 +376,12 @@ async function saveProduct(e) {
     const productIdEl = document.getElementById('productId');
     const nameEl = document.getElementById('productName');
     const priceEl = document.getElementById('productPrice');
+    const categoryEl = document.getElementById('productCategory');
     const imageFileEl = document.getElementById('product_image_file');
     const imageUrlEl = document.getElementById('productImage');
 
     // ✅ Check all elements exist
-    if (!productIdEl || !nameEl || !priceEl) {
+    if (!productIdEl || !nameEl || !priceEl || !categoryEl) {
         console.error('❌ Form elements not found');
         alert('Form error: Missing form elements');
         return;
@@ -388,12 +390,13 @@ async function saveProduct(e) {
     const productId = productIdEl.value;
     const name = nameEl.value.trim();
     const price = priceEl.value.trim();
+    const category = categoryEl.value;
     const imageFile = imageFileEl?.files[0];
     const imageUrl = imageUrlEl?.value?.trim() || null;
 
     try {
-        if (!name || !price) {
-            alert('Please fill in all required fields (Name, Price)');
+        if (!name || !price || !category) {
+            alert('Please fill in all required fields (Name, Price, Category)');
             return;
         }
 
@@ -405,6 +408,7 @@ async function saveProduct(e) {
             const formData = new FormData();
             formData.append('product_name', name);
             formData.append('price', parseInt(price));
+            formData.append('category_id', parseInt(category));
             formData.append('image', imageFile);
 
             // Use direct fetch for FormData - do NOT use fetchWithAuth
@@ -428,6 +432,7 @@ async function saveProduct(e) {
                 body: JSON.stringify({
                     product_name: name,
                     price: parseInt(price),
+                    category_id: parseInt(category),
                     product_image_url: imageUrl
                 })
             });
