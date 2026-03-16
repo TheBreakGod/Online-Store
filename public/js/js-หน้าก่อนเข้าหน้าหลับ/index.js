@@ -52,11 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function fetchProducts(categoryId) { 
-    // หมวดซูเปอร์มาร์เก็ต (1) = แสดงสินค้าทุกหมวด
-    if (categoryId === '1' || categoryId === 1) categoryId = null;
     let url = '/api/products';
-    if (categoryId) {
-        url = `/api/products?category=${categoryId}`;
+    if (categoryId && categoryId != 1) {
+        url += `?category=${categoryId}`;
     }
     fetch(url)
         .then(response => response.json())
