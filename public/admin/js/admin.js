@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Load user info
     const adminUser = JSON.parse(localStorage.getItem('adminUser') || '{}');
     document.getElementById('adminName').textContent = adminUser.name || 'Admin';
-    document.getElementById('adminEmail').textContent = adminUser.email || 'admin@easyshop.com';
+    document.getElementById('adminEmail').textContent = adminUser.email || 'admin@allonline.com';
 
     // Load initial dashboard
     loadDashboard();

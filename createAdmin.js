@@ -28,7 +28,7 @@ async function createAdminUser() {
         const adminUser = new User({
             username: 'admin',
             name: 'System Administrator',
-            email: 'admin@easyshop.com',
+            email: 'admin@allonline.com',
             password: hashedPassword,
             role: 'admin'
         });
@@ -38,7 +38,7 @@ async function createAdminUser() {
         console.log('✅ Admin user created successfully!');
         console.log('Username: admin');
         console.log('Password: admin123');
-        console.log('Email: admin@easyshop.com');
+        console.log('Email: admin@allonline.com');
 
         process.exit(0);
     } catch (error) {
